@@ -1,0 +1,253 @@
+@import 'tabler-icons.css';
+@import 'core.css';
+@import 'theme-default.css';
+
+body {
+    font-family: 'PTRootUI', sans-serif;
+}
+
+/*.btn-primary {*/
+/*    background-color: #ffd600;*/
+/*    border-color: #ffd600;*/
+/*    color: #333;*/
+/*}*/
+
+/*.btn-primary:hover,*/
+/*.btn-primary:focus {*/
+/*    background-color: #ffd600 !important;*/
+/*    border-color: #ffd600 !important;*/
+/*    color: #333 !important;*/
+/*}*/
+
+/*.btn-outline-primary {*/
+/*    border-color: #ffd600;*/
+/*    color: #6f6b7d;*/
+/*}*/
+
+/*.btn-outline-primary:hover,*/
+/*.btn-outline-primary:focus {*/
+/*    border-color: #ffd600 !important;*/
+/*    color: #333 !important;*/
+/*}*/
+
+/*.nav-pills .nav-link.active,*/
+/*.nav-pills .nav-link.active:hover,*/
+/*.nav-pills .nav-link.active:focus {*/
+/*    background-color: #ffd600 !important;*/
+/*    border-color: #ffd600 !important;*/
+/*    color: #333 !important;*/
+/*}*/
+
+/*.switch-input:checked ~ .switch-toggle-slider {*/
+/*    background-color: #ffd600 !important;*/
+/*    border-color: #ffd600 !important;*/
+/*}*/
+
+/*.switch-input:checked ~ .switch-toggle-slider:after {*/
+/*    background-color: #b29800;*/
+/*}*/
+
+html:not(.layout-menu-collapsed) .bg-menu-theme .menu-inner .menu-item:not(.active) > .menu-link:hover,
+.layout-menu-hover.layout-menu-collapsed .bg-menu-theme .menu-inner .menu-item:not(.active) > .menu-link:hover {
+    background: #f4f3fe;
+    color: #7367f0 !important;
+}
+
+.layout-navbar .navbar-dropdown .dropdown-menu {
+    right: 0;
+}
+
+.light-style .menu .app-brand.demo {
+    height: 64px;
+}
+
+.dark-style .menu .app-brand.demo {
+    height: 64px;
+}
+
+.app-brand-logo.demo {
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    display: -ms-flexbox;
+    display: flex;
+    width: 30px;
+    height: 20px;
+}
+
+.app-brand-logo.demo svg {
+    width: 30px;
+    height: 20px;
+}
+
+.app-brand-text.demo {
+    font-size: 1.1rem;
+}
+.app-brand-text.demo small {
+    display: block;
+}
+
+/* ! For .layout-navbar-fixed added fix padding top tpo .layout-page */
+.layout-navbar-fixed .layout-wrapper:not(.layout-without-menu) .layout-page {
+    padding-top: 64px !important;
+}
+.layout-navbar-fixed .layout-wrapper:not(.layout-horizontal):not(.layout-without-menu) .layout-page {
+    padding-top: 78px !important;
+}
+/* Navbar page z-index issue solution */
+.content-wrapper .navbar {
+    z-index: auto;
+}
+
+/*
+* Content
+******************************************************************************/
+
+.demo-blocks > * {
+    display: block !important;
+}
+
+.demo-inline-spacing > * {
+    margin: 1rem 0.375rem 0 0 !important;
+}
+
+/* ? .demo-vertical-spacing class is used to have vertical margins between elements. To remove margin-top from the first-child, use .demo-only-element class with .demo-vertical-spacing class. For example, we have used this class in forms-input-groups.html file. */
+.demo-vertical-spacing > * {
+    margin-top: 1rem !important;
+    margin-bottom: 0 !important;
+}
+.demo-vertical-spacing.demo-only-element > :first-child {
+    margin-top: 0 !important;
+}
+
+.demo-vertical-spacing-lg > * {
+    margin-top: 1.875rem !important;
+    margin-bottom: 0 !important;
+}
+.demo-vertical-spacing-lg.demo-only-element > :first-child {
+    margin-top: 0 !important;
+}
+
+.demo-vertical-spacing-xl > * {
+    margin-top: 5rem !important;
+    margin-bottom: 0 !important;
+}
+.demo-vertical-spacing-xl.demo-only-element > :first-child {
+    margin-top: 0 !important;
+}
+
+.rtl-only {
+    display: none !important;
+    text-align: left !important;
+    direction: ltr !important;
+}
+
+[dir='rtl'] .rtl-only {
+    display: block !important;
+}
+
+/* Dropdown buttons going out of small screens */
+@media (max-width: 576px) {
+    #dropdown-variation-demo .btn-group .text-truncate {
+        width: 254px;
+        position: relative;
+    }
+    #dropdown-variation-demo .btn-group .text-truncate::after {
+        position: absolute;
+        top: 45%;
+        right: 0.65rem;
+    }
+}
+
+/*
+* Layout demo
+******************************************************************************/
+
+.layout-demo-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+.layout-demo-placeholder img {
+    width: 900px;
+}
+.layout-demo-info {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.ag-card {
+    height: calc(100% - 100px);
+}
+
+.ag-card .ag-table {
+    height: 100%;
+}
+
+.ag-table .ag-root-wrapper.ag-layout-normal {
+    border-radius: 0.375rem;
+    border: 0;
+}
+
+.ag-table .ag-header,
+.ag-table .ag-advanced-filter-header {
+    background-color: #fff;
+}
+
+.ag-table .ag-row,
+.ag-table .ag-row {
+    font-family: 'PTRootUI', sans-serif;
+    color: #6f6b7d;
+}
+
+.offcanvas.offcanvas-end {
+    width: 500px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background-color: rgba(255,255,255,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@font-face {
+    font-family: 'PTRootUI';
+    src: url('@/assets/pt-root-ui_regular.woff2') format('woff2'),
+    url('@/assets/pt-root-ui_regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PTRootUI';
+    src: url('@/assets/pt-root-ui_medium.woff2') format('woff2'),
+    url('@/assets/pt-root-ui_medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PTRootUI';
+    src: url('@/assets/pt-root-ui_bold.woff2') format('woff2'),
+    url('@/assets/pt-root-ui_bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
