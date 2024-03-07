@@ -9,6 +9,11 @@ import ContragentEditor from '../components/contragents/Editor.vue'
 import Stocks from '../components/stocks/Index.vue'
 import StockEditor from '../components/stocks/Editor.vue'
 
+import Postavkas from '../components/postavkas/Index.vue'
+import PostavkaEditor from '../components/postavkas/Editor.vue'
+
+import Products from '../components/products/Index.vue'
+
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -41,6 +46,21 @@ const router = createRouter({
             path: '/stock-editor/:uuid?',
             name: 'StockEditor',
             component: StockEditor
+        },
+        {
+            path: '/postavkas',
+            name: 'Postavkas',
+            component: Postavkas
+        },
+        {
+            path: '/postavka-editor/:uuid?',
+            name: 'PostavkaEditor',
+            component: PostavkaEditor
+        },
+        {
+            path: '/products',
+            name: 'Products',
+            component: Products
         },
     ]
 })

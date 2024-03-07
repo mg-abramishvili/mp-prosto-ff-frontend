@@ -2,7 +2,7 @@
     <div class="offcanvas offcanvas-end show" tabindex="-1" id="offcanvasBackdrop"
          aria-labelledby="offcanvasBackdropLabel" aria-modal="true" role="dialog">
         <div class="offcanvas-header">
-            <h5 id="offcanvasBackdropLabel" class="offcanvas-title">Контрагенты</h5>
+            <h5 id="offcanvasBackdropLabel" class="offcanvas-title">Склады</h5>
             <button @click="$parent.views.stocks = false" type="button" class="btn-close text-reset"></button>
         </div>
         <div class="offcanvas-body my-0 mx-0 p-0 flex-grow-0">

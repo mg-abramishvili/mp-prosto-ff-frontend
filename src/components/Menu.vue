@@ -20,6 +20,20 @@
                 <div>Склады</div>
             </RouterLink>
         </li>
+
+        <li class="menu-item">
+            <RouterLink :to="{name: 'Postavkas'}" href="" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-database"></i>
+                <div>Поступления</div>
+            </RouterLink>
+        </li>
+
+        <li class="menu-item">
+            <RouterLink :to="{name: 'Products'}" href="" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-database"></i>
+                <div>Товары WB</div>
+            </RouterLink>
+        </li>
     </ul>
 </template>
 
