@@ -1,6 +1,6 @@
 <template>
     <h4 class="py-3 mb-4">Новая поставка</h4>
-
+{{nomenclatures}}
     <div class="card mb-4">
         <div class="card-body">
             <div class="row">
@@ -51,12 +51,21 @@
         </table>
     </div>
 
+    <div class="d-flex justify-content-end">
+        <ul>
+            <li>Всего позиций: {{nomenclatures.length}}</li>
+            <li>Всего кол-во: {{totalQuantity}}</li>
+        </ul>
+    </div>
+
     <NomenclatureSelector
         v-if="views.nomenclaturesSelector && selected.contragent"
         :contragent="selected.contragent"
         @add-nomenclature-to-postavka="addNomenclatureToPostavka"
         @add-nomenclatures-from-size-to-postavka="addNomenclaturesFromSizeToPostavka"
     />
+
+    <button @click="save()" class="btn btn-primary">Сохранить поставку</button>
 </template>
 
 <script>
@@ -82,6 +91,12 @@ export default {
                 nomenclaturesSelector: false,
             },
         }
+    },
+    computed: {
+        totalQuantity() {
+            return this.nomenclatures
+                .reduce(function (acc, obj) { return acc + obj.quantity; }, 0)
+        },
     },
     created() {
         this.loadFFContragents()
@@ -143,25 +158,22 @@ export default {
             })
         },
         save() {
-            // this.views.saveButton = false
-            //
-            // axios
-            //     .post(`${import.meta.env.VITE_API_SERVER}/api/ff-register`, {
-            //         user_name: this.user.name,
-            //         user_email: this.user.email,
-            //         password: this.user.password,
-            //         password_confirmation: this.user.password,
-            //         company_name: this.company.name,
-            //         company_inn: this.company.inn,
-            //     })
-            //     .then(response => {
-            //         this.$router.push({name: 'Contragents'})
-            //     })
-            //     .catch(error => {
-            //         this.$toast.error(error)
-            //
-            //         this.views.saveButton = true
-            //     })
+            this.views.saveButton = false
+
+            axios
+                .post(`${import.meta.env.VITE_API_SERVER}/api/ff-postavkas`, {
+                    contragent: this.selected.contragent,
+                    date: this.date,
+                    items: this.nomenclatures
+                })
+                .then(response => {
+                    this.$router.push({name: 'Contragents'})
+                })
+                .catch(error => {
+                    this.$toast.error(error)
+
+                    this.views.saveButton = true
+                })
         },
     },
     components: {

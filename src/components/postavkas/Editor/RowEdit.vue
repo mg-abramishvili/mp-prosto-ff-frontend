@@ -1,9 +1,13 @@
 <template>
-    <td>{{ nomenclature.title }}</td>
-    <td>{{ nomenclature.vendor_code }}</td>
+    <td>
+        <input v-model="title" type="text" class="form-control">
+    </td>
+    <td>
+        <input v-model="artnumber" type="text" class="form-control">
+    </td>
     <td style="width: 150px;">
         <input
-            v-model="$parent.nomenclatures.find(n => n.id === nomenclature.id).quantity"
+            v-model="quantity"
             type="number"
             class="form-control form-select-sm text-center">
     </td>
@@ -11,5 +15,13 @@
 <script>
 export default {
     props: ['nomenclature'],
+    data() {
+        return {
+            title: '',
+            artnumber: '',
+            vendor_code: '',
+            quantity: 1,
+        }
+    },
 }
 </script>
