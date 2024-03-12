@@ -46,11 +46,11 @@
                     class="list-group-item list-group-item-action dropdown-notifications-item">
                     <div
                         @click="$emit('addNomenclaturesFromSizeToPostavka', size);"
-                        class="d-flex cursor-pointer">
+                        class="d-flex cursor-pointer align-items-center">
                         <div class="flex-shrink-0 me-3">
                             <div class="avatar">
                                 <span class="avatar-initial rounded-circle bg-label-danger">
-                                    <img v-if="size.product.photo" :src="size.product.photo" alt>
+                                    <img v-if="size.product.photo" :src="size.product.photo" alt style="height: auto;">
                                 </span>
                             </div>
                         </div>
