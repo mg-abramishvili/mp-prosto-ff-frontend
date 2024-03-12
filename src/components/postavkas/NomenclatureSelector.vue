@@ -56,7 +56,7 @@
                         </div>
                         <div class="flex-grow-1">
                             <h6 class="mb-1">{{ size.product.title }}</h6>
-                            <p class="mb-0">{{ size.product.vendor_code }}</p>
+                            <p class="mb-0">{{ size.product.vendor_code }} | {{ size.tech_size }}</p>
                             <!--                            <small class="text-muted">14.02.2024</small>-->
                         </div>
                     </div>
