@@ -83,6 +83,10 @@ export default {
     },
     computed: {
         filteredNomenclatures() {
+            if(this.views.tab !== 'nomenclatures') {
+                return this.nomenclatures
+            }
+
             if (!this.searchInput.length) {
                 return this.nomenclatures
             }
@@ -92,6 +96,10 @@ export default {
                     || n.vendor_code.toLowerCase().includes(this.searchInput.toLowerCase()))
         },
         filteredSizes() {
+            if(this.views.tab !== 'sizes') {
+                return this.sizes
+            }
+
             if (!this.searchInput.length) {
                 return this.sizes
             }
