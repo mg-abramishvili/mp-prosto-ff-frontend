@@ -25,7 +25,7 @@
             <Loader v-if="views.loading"/>
 
             <ul v-if="!views.loading && views.tab === 'nomenclatures'" class="list-group list-group-flush">
-                <li v-for="nomenclature in nomenclatures"
+                <li v-for="nomenclature in filteredNomenclatures"
                     class="list-group-item list-group-item-action dropdown-notifications-item">
                     <div
                         @click="$emit('addNomenclatureToPostavka', nomenclature);"
@@ -40,7 +40,7 @@
             </ul>
 
             <ul v-if="!views.loading && views.tab === 'sizes'" class="list-group list-group-flush">
-                <li v-for="size in sizes"
+                <li v-for="size in filteredSizes"
                     class="list-group-item list-group-item-action dropdown-notifications-item">
                     <div
                         @click="$emit('addNomenclaturesFromSizeToPostavka', size);"
@@ -71,10 +71,32 @@ export default {
             nomenclatures: [],
             sizes: [],
 
+            searchInput: '',
+
             views: {
                 tab: 'nomenclatures',
                 loading: true,
             },
+        }
+    },
+    computed: {
+        filteredNomenclatures() {
+            if (!this.searchInput.length) {
+                return this.nomenclatures
+            }
+
+            return this.nomenclatures
+                .filter(n => n.title.toLowerCase().includes(this.searchInput.toLowerCase())
+                    || n.vendor_code.toLowerCase().includes(this.searchInput.toLowerCase()))
+        },
+        filteredSizes() {
+            if (!this.searchInput.length) {
+                return this.sizes
+            }
+
+            return this.sizes
+                .filter(n => n.title.toLowerCase().includes(this.searchInput.toLowerCase())
+                    || n.vendor_code.toLowerCase().includes(this.searchInput.toLowerCase()))
         }
     },
     created() {

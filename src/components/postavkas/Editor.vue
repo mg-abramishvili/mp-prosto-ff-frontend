@@ -207,7 +207,9 @@ export default {
             }
 
             size.nomenclatures.forEach(nomenclature => {
-                this.addNomenclatureToPostavka(nomenclature)
+                if(nomenclature.type !== 'usluga') {
+                    this.addNomenclatureToPostavka(nomenclature)
+                }
             })
         },
         save() {
