@@ -39,12 +39,19 @@ export default {
 
             table: {
                 columns: [
-                    {field: "uuid", headerName: 'uuid'},
+                    {field: "date", headerName: 'Дата', width: 200},
+                    {field: "doc_number", headerName: '№', width: 200},
+                    {field: "contragent.name", headerName: 'Контрагент', width: 200},
+                    {field: "stock.name", headerName: 'Склад', width: 200},
+                    {field: "items_count", headerName: 'Кол-во позиций', width: 180},
+                    {
+                        field: "status",
+                        headerName: 'Статус',
+                        width: 180,
+                        cellRenderer: (params) => `<span>${params.data.status === 1 ? 'проведено' : 'создано'}</span>`
+                    },
                 ],
                 defaultColDef: {
-                    filter: true,
-                    floatingFilter: true,
-                    sortable: true,
                     resizable: true,
                 },
             },
@@ -71,7 +78,7 @@ export default {
                 })
         },
         onCellClicked(event) {
-            //
+            this.$router.push({name: 'Postavka', params: {uuid: event.data.uuid}})
         },
     },
     components: {

@@ -32,7 +32,7 @@ export default {
 
             table: {
                 columns: [
-                    {field: "title", headerName: 'title', width: 200},
+                    {field: "nomenclature.title", headerName: 'title', width: 200},
                     {field: "quantity", headerName: 'quantity', width: 200},
                 ],
                 defaultColDef: {

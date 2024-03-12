@@ -43,7 +43,7 @@
                 <li v-for="size in sizes"
                     class="list-group-item list-group-item-action dropdown-notifications-item">
                     <div
-                        @click="$emit('addNomenclaturesFromSizeToPostavka', size.nomenclatures);"
+                        @click="$emit('addNomenclaturesFromSizeToPostavka', size);"
                         class="d-flex cursor-pointer">
                         <div class="flex-grow-1">
                             <h6 class="mb-1">{{ size.product.title }}</h6>

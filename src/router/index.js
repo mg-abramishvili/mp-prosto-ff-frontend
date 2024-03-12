@@ -10,6 +10,7 @@ import Stocks from '../components/stocks/Index.vue'
 import StockEditor from '../components/stocks/Editor.vue'
 
 import Postavkas from '../components/postavkas/Index.vue'
+import Postavka from '../components/postavkas/Postavka.vue'
 import PostavkaEditor from '../components/postavkas/Editor.vue'
 
 import Products from '../components/products/Index.vue'
@@ -51,6 +52,11 @@ const router = createRouter({
             path: '/postavkas',
             name: 'Postavkas',
             component: Postavkas
+        },
+        {
+            path: '/postavka/:uuid',
+            name: 'Postavka',
+            component: Postavka
         },
         {
             path: '/postavka-editor/:uuid?',
