@@ -32,7 +32,7 @@
                   </svg>
                 </span>
                     <span class="app-brand-text demo menu-text fw-bold">MP-PRO100.RU
-                        <small class="text-muted">beta 0.1.1</small>
+                        <small class="text-muted">beta 0.1.2</small>
                     </span>
                 </RouterLink>
             </div>
