@@ -97,8 +97,8 @@ export default {
             }
 
             return this.sizes
-                .filter(n => n.title.toLowerCase().includes(this.searchInput.toLowerCase())
-                    || n.vendor_code.toLowerCase().includes(this.searchInput.toLowerCase()))
+                .filter(n => n.product.title.toLowerCase().includes(this.searchInput.toLowerCase())
+                    || n.product.vendor_code.toLowerCase().includes(this.searchInput.toLowerCase()))
         }
     },
     created() {
