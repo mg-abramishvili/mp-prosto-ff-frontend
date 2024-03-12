@@ -83,10 +83,6 @@ export default {
     },
     computed: {
         filteredNomenclatures() {
-            if(this.views.tab !== 'nomenclatures') {
-                return this.nomenclatures
-            }
-
             if (!this.searchInput.length) {
                 return this.nomenclatures
             }
@@ -96,10 +92,6 @@ export default {
                     || n.vendor_code.toLowerCase().includes(this.searchInput.toLowerCase()))
         },
         filteredSizes() {
-            if(this.views.tab !== 'sizes') {
-                return this.sizes
-            }
-
             if (!this.searchInput.length) {
                 return this.sizes
             }
@@ -119,7 +111,7 @@ export default {
             axios.get(`${import.meta.env.VITE_API_SERVER}/api/ff-nomenclatures-by-contragent/${this.contragent}`)
                 .then(response => {
                     if (response.data) {
-                        this.nomenclatures = response.data
+                        this.nomenclatures = response.data.filter(n => n.vendor_code)
                     }
                     this.views.loading = false
                 })
