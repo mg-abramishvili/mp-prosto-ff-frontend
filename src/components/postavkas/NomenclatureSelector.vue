@@ -47,6 +47,13 @@
                     <div
                         @click="$emit('addNomenclaturesFromSizeToPostavka', size);"
                         class="d-flex cursor-pointer">
+                        <div class="flex-shrink-0 me-3">
+                            <div class="avatar">
+                                <span class="avatar-initial rounded-circle bg-label-danger">
+                                    <img v-if="size.product.photo" :src="size.product.photo" alt>
+                                </span>
+                            </div>
+                        </div>
                         <div class="flex-grow-1">
                             <h6 class="mb-1">{{ size.product.title }}</h6>
                             <p class="mb-0">{{ size.product.vendor_code }}</p>
