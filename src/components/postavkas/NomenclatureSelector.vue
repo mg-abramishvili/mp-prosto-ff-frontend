@@ -24,6 +24,8 @@
 
             <Loader v-if="views.loading"/>
 
+            <input v-model="searchInput" type="text" class="form-control mb-4">
+
             <ul v-if="!views.loading && views.tab === 'nomenclatures'" class="list-group list-group-flush">
                 <li v-for="nomenclature in filteredNomenclatures"
                     class="list-group-item list-group-item-action dropdown-notifications-item">
