@@ -1,5 +1,5 @@
 <template>
-    <h4 class="py-3 mb-4">Новая поставка</h4>
+    <h4 class="py-3 mb-4">Новая сборка</h4>
 
     <Loader v-if="views.loading"/>
 
@@ -12,7 +12,7 @@
                             <label class="form-label">Склад</label>
                             <select
                                 v-model="selected.stock"
-                                @change="nomenclatures = []"
+                                @change="sizes = []"
                                 class="form-select">
                                 <option v-for="stock in stocks" :value="stock.uuid">
                                     {{ stock.name }}
@@ -25,7 +25,7 @@
                             <label class="form-label">Контрагент</label>
                             <select
                                 v-model="selected.contragent"
-                                @change="nomenclatures = []"
+                                @change="sizes = []"
                                 class="form-select">
                                 <option v-for="contragent in contragents" :value="contragent.uuid">
                                     {{ contragent.name }}
@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-12 col-lg-3">
                         <div class="mb-4">
-                            <label class="form-label">Дата поставки</label>
+                            <label class="form-label">Дата сборки</label>
                             <input v-model="date" type="date" class="form-control">
                         </div>
                     </div>
@@ -49,35 +49,33 @@
             </div>
         </div>
 
-        <button @click="openNomenclatureSelector()" class="btn btn-primary mb-4">Добавить позицию</button>
+        <button @click="openSizeSelector()" class="btn btn-primary mb-4">Добавить позицию</button>
 
         <div class="card mt-4">
             <table class="table table-borderless table-hover mb-0">
                 <thead class="border-bottom">
                 <tr>
-                    <th>Тип</th>
                     <th>Наименование</th>
                     <th>Артикул</th>
                     <th>Размер</th>
-                    <th>Бренд</th>
-                    <th>Закуп</th>
+                    <th>Баркод</th>
                     <th>Кол-во</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="nomenclature in nomenclatures">
-                    <NomenclatureRow
-                        v-if="nomenclature.id"
-                        :nomenclature="nomenclature"
+                <tr v-for="size in sizes">
+                    <SizeRow
+                        v-if="size.id"
+                        :size="size"
                     />
                 </tr>
-                <NomenclatureCreator
-                    v-if="nomenclaturesCreator"
-                    :size="nomenclaturesCreator"
+                <SizeCreator
+                    v-if="sizesCreator"
+                    :size="sizesCreator"
                     :contragent="selected.contragent"
-                    @add-nomenclature="addNomenclatureToPostavka"
-                    @close-creator="nomenclaturesCreator = null"
+                    @add-size="addSizeToSborka"
+                    @close-creator="sizesCreator = null"
                 />
                 </tbody>
             </table>
@@ -85,26 +83,25 @@
 
         <div class="d-flex justify-content-end mt-2 text-muted lh-1">
             <ul class="d-flex list-unstyled">
-                <li>Всего позиций: {{ nomenclatures.length }}</li>
+                <li>Всего позиций: {{ sizes.length }}</li>
                 <li class="ms-4">Всего кол-во: {{ totalQuantity }}</li>
             </ul>
         </div>
 
-        <NomenclatureSelector
-            v-if="views.nomenclaturesSelector && selected.contragent"
+        <SizeSelector
+            v-if="views.sizesSelector && selected.contragent"
             :contragent="selected.contragent"
-            @add-nomenclature-to-postavka="addNomenclatureToPostavka"
-            @add-nomenclatures-from-size-to-postavka="addNomenclaturesFromSizeToPostavka"
+            @add-size-to-sborka="addSizeToSborka"
         />
 
-        <button @click="save()" class="btn btn-primary">Сохранить поставку</button>
+        <button @click="save()" class="btn btn-primary">Сохранить сборку</button>
     </template>
 </template>
 
 <script>
-import NomenclatureSelector from './NomenclatureSelector.vue'
-import NomenclatureRow from './Editor/Row.vue'
-import NomenclatureCreator from './Editor/Creator.vue'
+import SizeSelector from './SizeSelector.vue'
+import SizeRow from './Editor/Row.vue'
+import SizeCreator from './Editor/Creator.vue'
 import dayjs from "dayjs";
 
 export default {
@@ -113,7 +110,7 @@ export default {
             contragents: [],
             stocks: [],
 
-            nomenclatures: [],
+            sizes: [],
 
             number: 0,
 
@@ -124,18 +121,18 @@ export default {
 
             date: dayjs().locale('ru').utcOffset(3).format('YYYY-MM-DD'),
 
-            nomenclaturesCreator: null,
+            sizesCreator: null,
 
             views: {
                 loading: true,
                 saveButton: true,
-                nomenclaturesSelector: false,
+                sizesSelector: false,
             },
         }
     },
     computed: {
         totalQuantity() {
-            return this.nomenclatures
+            return this.sizes
                 .reduce(function (acc, obj) {
                     return acc + obj.quantity
                 }, 0)
@@ -147,7 +144,7 @@ export default {
     methods: {
         getDocNumber() {
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/ff-postavkas-get-number`)
+                .get(`${import.meta.env.VITE_API_SERVER}/api/ff-sborkas-get-number`)
                 .then(response => {
                     this.number = response.data
 
@@ -176,46 +173,29 @@ export default {
                     this.views.loading = false
                 })
         },
-        openNomenclatureSelector() {
+        openSizeSelector() {
             if (!this.selected.contragent) {
                 return this.$toast.error('Укажите контрагента')
             }
 
-            this.views.nomenclaturesSelector = true
+            this.views.sizesSelector = true
         },
-        addNomenclatureToPostavka(nomenclature) {
-            let isNomenclatureIsAlreadyAdded = this.nomenclatures.find(n => n.id === nomenclature.id)
+        addSizeToSborka(size) {
+            console.log(size)
+            let isSizeIsAlreadyAdded = this.sizes.find(n => n.id === size.id)
 
-            if (isNomenclatureIsAlreadyAdded) {
-                return this.$toast.error('Номенклатура уже добавлена')
+            if (isSizeIsAlreadyAdded) {
+                return this.$toast.error('Размер уже добавлен')
             }
 
-            this.nomenclatures.push({
-                id: nomenclature.id,
-                type: nomenclature.type,
-                title: nomenclature.title,
-                vendor_code: nomenclature.vendor_code,
-                tech_size: nomenclature.tech_size,
-                brand: nomenclature.brand,
-                zakup_price: nomenclature.cost_price,
+            this.sizes.push({
+                id: size.id,
+                title: size.product.title,
+                vendor_code: size.product.vendor_code,
+                tech_size: size.tech_size,
+                skus: size.skus,
+                barcode: size.skus ? size.skus[0].barcode : null,
                 quantity: 1,
-            })
-
-            this.views.nomenclaturesSelector = false
-        },
-        addNomenclaturesFromSizeToPostavka(size) {
-            if (!size.nomenclatures.length) {
-                if (confirm('У товара нет номенклатуры. Создать пустую для заполнения?')) {
-                    this.nomenclaturesCreator = size
-                }
-
-                return this.views.nomenclaturesSelector = false
-            }
-
-            size.nomenclatures.forEach(nomenclature => {
-                if(nomenclature.type !== 'usluga') {
-                    this.addNomenclatureToPostavka(nomenclature)
-                }
             })
         },
         save() {
@@ -232,25 +212,25 @@ export default {
             }
 
             if(!this.date) {
-                return this.$toast.error('Укажите дату поставки')
+                return this.$toast.error('Укажите дату сборки')
             }
 
-            if(!this.nomenclatures.length) {
-                return this.$toast.error('Поставка не может быть пустой')
+            if(!this.sizes.length) {
+                return this.$toast.error('Сборка не может быть пустой')
             }
 
             this.views.saveButton = false
 
             axios
-                .post(`${import.meta.env.VITE_API_SERVER}/api/ff-postavkas`, {
+                .post(`${import.meta.env.VITE_API_SERVER}/api/ff-sborkas`, {
                     contragent: this.selected.contragent,
                     stock: this.selected.stock,
                     date: this.date,
                     doc_number: this.number,
-                    items: this.nomenclatures
+                    items: this.sizes
                 })
                 .then(response => {
-                    this.$router.push({name: 'Postavka', params: {uuid: response.data}})
+                    this.$router.push({name: 'Sborka', params: {uuid: response.data}})
                 })
                 .catch(error => {
                     this.$toast.error(error.response.data)
@@ -260,9 +240,9 @@ export default {
         },
     },
     components: {
-        NomenclatureSelector,
-        NomenclatureRow,
-        NomenclatureCreator,
+        SizeSelector,
+        SizeRow,
+        SizeCreator,
     },
 }
 </script>

@@ -40,57 +40,184 @@
         </div>
     </div>
 
-    <div v-if="!loader" class="card">
-        <table class="table table-borderless table-hover mb-0">
-            <thead class="border-bottom">
-            <tr>
-                <th>Тип</th>
-                <th>Наименование</th>
-                <th>Артикул</th>
-                <th>Себес</th>
-                <th>Кол-во</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="item in postavka.items">
-                <td>{{ item.nomenclature.type }}</td>
-                <td>{{ item.nomenclature.title }}</td>
-                <td>{{ item.nomenclature.vendor_code }}</td>
-                <td>{{ item.nomenclature.cost_price }}</td>
-                <td style="width: 150px;">
-                    <span v-if="!editor">{{ item.quantity }}</span>
+    <template v-if="!loader">
+        <div class="mb-4">
+            <button
+                @click="tab = 'postup'; editorRaznitsa = null; editorPriem = null"
+                class="btn btn-sm me-2"
+                :class="tab === 'postup' ? 'btn-primary' : 'btn-outline-primary'">
+                Поступления
+            </button>
 
-                    <input
-                        v-if="editor === item"
-                        v-model="item.quantity" type="number"
-                        class="form-control form-control-sm">
-                </td>
-                <td class="text-end">
-                    <template v-if="postavka.status === 0">
-                        <button
-                            v-if="!editor"
-                            @click="editItem(item)"
-                            class="btn btn-sm btn-outline-warning me-2">
-                            <i class="tf-icons ti ti-edit"></i>
-                        </button>
-                        <button
-                            v-if="editor"
-                            @click="updateItem(item)"
-                            class="btn btn-sm btn-outline-success me-2">
-                            <i class="tf-icons ti ti-check"></i>
-                        </button>
-                        <button
-                            @click="delItem(item)"
-                            class="btn btn-sm btn-outline-danger">
-                            <i class="tf-icons ti ti-trash"></i>
-                        </button>
-                    </template>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+            <button
+                @click="tab = 'raznitsa'; editor = null; editorPriem = null"
+                class="btn btn-sm me-2"
+                :class="tab === 'raznitsa' ? 'btn-primary' : 'btn-outline-primary'">
+                Расхождения
+            </button>
+
+            <button
+                @click="tab = 'priem'; editor = null; editorRaznitsa = null"
+                class="btn btn-sm"
+                :class="tab === 'priem' ? 'btn-primary' : 'btn-outline-primary'">
+                Цена приемки
+            </button>
+        </div>
+
+        <div v-if="tab === 'postup'" class="card">
+            <table class="table table-borderless table-hover mb-0">
+                <thead class="border-bottom">
+                <tr>
+                    <th>Тип</th>
+                    <th>Наименование</th>
+                    <th>Артикул</th>
+                    <th>Размер</th>
+                    <th>Бренд</th>
+                    <th>Закуп</th>
+                    <th>Кол-во</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="item in postavka.items">
+                    <td>{{ item.nomenclature.type }}</td>
+                    <td>{{ item.nomenclature.title }}</td>
+                    <td>{{ item.nomenclature.vendor_code }}</td>
+                    <td>{{ item.nomenclature.tech_size }}</td>
+                    <td>{{ item.nomenclature.brand }}</td>
+                    <td>{{ item.zakup_price }}</td>
+                    <td style="width: 150px;">
+                        <span v-if="!editor">{{ item.quantity }}</span>
+
+                        <input
+                            v-if="editor === item"
+                            v-model="item.quantity" type="number"
+                            class="form-control form-control-sm">
+                    </td>
+                    <td class="text-end">
+                        <template v-if="postavka.status === 0">
+                            <button
+                                v-if="!editor"
+                                @click="editItem(item)"
+                                class="btn btn-sm btn-outline-warning me-2">
+                                <i class="tf-icons ti ti-edit"></i>
+                            </button>
+                            <button
+                                v-if="editor"
+                                @click="updateItem(item)"
+                                class="btn btn-sm btn-outline-success me-2">
+                                <i class="tf-icons ti ti-check"></i>
+                            </button>
+                            <button
+                                @click="delItem(item)"
+                                class="btn btn-sm btn-outline-danger">
+                                <i class="tf-icons ti ti-trash"></i>
+                            </button>
+                        </template>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div v-if="tab === 'raznitsa'" class="card">
+            <table class="table table-borderless table-hover mb-0">
+                <thead class="border-bottom">
+                <tr>
+                    <th>Тип</th>
+                    <th>Наименование</th>
+                    <th>Артикул</th>
+                    <th>Размер</th>
+                    <th>Бренд</th>
+                    <th>Разница</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="item in postavka.items">
+                    <td>{{ item.nomenclature.type }}</td>
+                    <td>{{ item.nomenclature.title }}</td>
+                    <td>{{ item.nomenclature.vendor_code }}</td>
+                    <td>{{ item.nomenclature.tech_size }}</td>
+                    <td>{{ item.nomenclature.brand }}</td>
+                    <td style="width: 150px;">
+                        <span v-if="!editorRaznitsa">{{ item.raznitsa }}</span>
+
+                        <input
+                            v-if="editorRaznitsa === item"
+                            v-model="item.raznitsa" type="number"
+                            class="form-control form-control-sm">
+                    </td>
+                    <td class="text-end">
+                        <template v-if="postavka.status === 0">
+                            <button
+                                v-if="!editorRaznitsa"
+                                @click="editItemRaznitsa(item)"
+                                class="btn btn-sm btn-outline-warning me-2">
+                                <i class="tf-icons ti ti-edit"></i>
+                            </button>
+                            <button
+                                v-if="editorRaznitsa"
+                                @click="updateItem(item)"
+                                class="btn btn-sm btn-outline-success me-2">
+                                <i class="tf-icons ti ti-check"></i>
+                            </button>
+                        </template>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div v-if="tab === 'priem'" class="card">
+            <table class="table table-borderless table-hover mb-0">
+                <thead class="border-bottom">
+                <tr>
+                    <th>Тип</th>
+                    <th>Наименование</th>
+                    <th>Артикул</th>
+                    <th>Размер</th>
+                    <th>Бренд</th>
+                    <th>Приемка</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="item in postavka.items">
+                    <td>{{ item.nomenclature.type }}</td>
+                    <td>{{ item.nomenclature.title }}</td>
+                    <td>{{ item.nomenclature.vendor_code }}</td>
+                    <td>{{ item.nomenclature.tech_size }}</td>
+                    <td>{{ item.nomenclature.brand }}</td>
+                    <td style="width: 150px;">
+                        <span v-if="!editorPriem">{{ item.priem_price }}</span>
+
+                        <input
+                            v-if="editorPriem === item"
+                            v-model="item.priem_price" type="number"
+                            class="form-control form-control-sm">
+                    </td>
+                    <td class="text-end">
+                        <template v-if="postavka.status === 0">
+                            <button
+                                v-if="!editorPriem"
+                                @click="editItemPriem(item)"
+                                class="btn btn-sm btn-outline-warning me-2">
+                                <i class="tf-icons ti ti-edit"></i>
+                            </button>
+                            <button
+                                v-if="editorPriem"
+                                @click="updateItem(item)"
+                                class="btn btn-sm btn-outline-success me-2">
+                                <i class="tf-icons ti ti-check"></i>
+                            </button>
+                        </template>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
 </template>
 
 <script>
@@ -102,6 +229,10 @@ export default {
             loader: true,
             saveButton: true,
             editor: null,
+            editorRaznitsa: null,
+            editorPriem: null,
+
+            tab: 'postup',
         }
     },
     created() {
@@ -120,19 +251,32 @@ export default {
         editItem(item) {
             this.editor = item
         },
+        editItemRaznitsa(item) {
+            this.editorRaznitsa = item
+        },
+        editItemPriem(item) {
+            this.editorPriem = item
+        },
         updateItem(item) {
             axios
                 .put(`${import.meta.env.VITE_API_SERVER}/api/ff-postavka-item/${item.id}/update`, {
-                    quantity: item.quantity
+                    quantity: item.quantity,
+                    raznitsa: item.raznitsa,
+                    priem_price: item.priem_price,
                 })
                 .then(response => {
                     this.loadPostavka()
 
                     this.editor = null
+                    this.editorRaznitsa = null
+                    this.editorPriem = null
+                })
+                .catch(error => {
+                    this.$toast.error(error.response.data)
                 })
         },
         delItem(item) {
-            if(this.postavka.items.length === 1) {
+            if (this.postavka.items.length === 1) {
                 return this.$toast.error('Документ поставки не может быть пустой')
             }
 
@@ -171,7 +315,7 @@ export default {
                 })
         },
         del() {
-            if(confirm('Точно удалить документ?')) {
+            if (confirm('Точно удалить документ?')) {
                 axios
                     .delete(`${import.meta.env.VITE_API_SERVER}/api/ff-postavka/${this.$route.params.uuid}/delete`)
                     .then(response => {

@@ -1,7 +1,9 @@
 <template>
-    <router-view v-if="!views.loading && !$store.state.company.name" :key="$route.path"/>
+    <Loader v-if="views.loading"/>
 
-    <div v-if="!views.loading && $store.state.company.name" class="layout-container">
+    <router-view v-if="!views.loading && !$store.state.user.id"/>
+
+    <div v-if="!views.loading && $store.state.user.id" class="layout-container">
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
             <div class="app-brand demo">
                 <RouterLink :to="{name: 'Home'}" class="app-brand-link gap-2">
@@ -32,7 +34,7 @@
                   </svg>
                 </span>
                     <span class="app-brand-text demo menu-text fw-bold">MP-PRO100.RU
-                        <small class="text-muted">beta 0.1.2</small>
+                        <small class="text-muted">beta 0.1.3</small>
                     </span>
                 </RouterLink>
             </div>

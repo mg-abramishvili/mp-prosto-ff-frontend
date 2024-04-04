@@ -1,35 +1,29 @@
 <template>
     <div class="row align-items-center mb-4">
         <div class="col-12 col-lg-6">
-            <h4 class="py-3">Контрагенты</h4>
+            <h4 class="py-3">Коробки</h4>
         </div>
         <div class="col-12 col-lg-6 text-end">
-            <RouterLink :to="{name: 'ContragentSearch'}" class="btn btn-outline-primary">
-                Поиск в системе
-            </RouterLink>
-
-            <RouterLink :to="{name: 'ContragentEditor'}" class="btn btn-primary ms-2">
-                Создать нового
+            <RouterLink :to="{name: 'BoxEditor'}" class="btn btn-primary">
+                Добавить
             </RouterLink>
         </div>
     </div>
 
-    <div v-if="!views.loading && contragents.length" class="card ag-card">
+    <div v-if="!views.loading && boxes.length" class="card ag-card">
         <ag-grid-vue
             class="ag-theme-alpine ag-table"
             :defaultColDef="table.defaultColDef"
             :columnDefs="table.columns"
-            :rowData="contragents"
+            :rowData="boxes"
             @cell-clicked="onCellClicked"
-            @cell-editing-started="cellEditingStarted"
-            @cell-editing-stopped="cellEditingStopped"
             enableCellTextSelection="true"
             ensureDomOrder="true">
         </ag-grid-vue>
     </div>
 
-    <div v-if="!views.loading && !contragents.length" class="alert alert-danger d-inline-block">
-        Нет contragents.
+    <div v-if="!views.loading && !boxes.length" class="alert alert-danger d-inline-block">
+        Нет коробок.
     </div>
 </template>
 
@@ -41,18 +35,22 @@ import "ag-grid-community/styles/ag-theme-alpine.css"
 export default {
     data() {
         return {
-            contragents: [],
+            boxes: [],
 
             table: {
                 columns: [
-                    {field: "name", headerName: 'Контрагент', width: 200},
-                    {field: "inn", headerName: 'ИНН', width: 200},
-                    {field: "user.tel", headerName: 'Телефон', width: 200},
-                    {field: "user.telegram", headerName: 'Телеграм', width: 200},
+                    {field: "number", headerName: '№', width: 200},
+                    {field: "status", headerName: 'Статус', width: 200},
+                    {
+                        field: "status",
+                        headerName: 'В коробке',
+                        width: 180,
+                        cellRenderer: (params) => `${params.data.sborka_items_count}`
+                    },
                 ],
                 defaultColDef: {
                     resizable: true,
-                }
+                },
             },
 
             views: {
@@ -64,20 +62,20 @@ export default {
         }
     },
     created() {
-        this.loadFFContragents()
+        this.loadBoxes()
     },
     methods: {
-        loadFFContragents() {
-            axios.get(`${import.meta.env.VITE_API_SERVER}/api/ff-contragents`)
+        loadBoxes() {
+            axios.get(`${import.meta.env.VITE_API_SERVER}/api/ff-boxes`)
                 .then(response => {
                     if (response.data) {
-                        this.contragents = response.data
+                        this.boxes = response.data
                     }
                     this.views.loading = false
                 })
         },
         onCellClicked(event) {
-            // this.$router.push({name: 'FFNomenclatures'})
+            this.$router.push({name: 'Box', params: {uuid: event.data.uuid}})
         },
     },
     components: {

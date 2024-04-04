@@ -42,6 +42,11 @@ export default {
                     {field: "tech_size", headerName: 'Размер'},
                     {field: "product.brand", headerName: 'Бренд'},
                     {field: "product.subject_name", headerName: 'Предмет'},
+                    {
+                        field: "quantity",
+                        headerName: 'Шт',
+                        cellRenderer: (params) => params.data.quantity ? params.data.quantity.quantity : 0
+                    },
                 ],
                 defaultColDef: {
                     filter: true,

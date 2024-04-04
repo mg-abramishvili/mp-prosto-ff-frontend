@@ -32,8 +32,13 @@ export default {
 
             table: {
                 columns: [
-                    {field: "nomenclature.title", headerName: 'title', width: 200},
-                    {field: "quantity", headerName: 'quantity', width: 200},
+                    {field: "nomenclature.type", headerName: 'Тип', width: 200},
+                    {field: "nomenclature.title", headerName: 'Наименование', width: 200},
+                    {field: "nomenclature.vendor_code", headerName: 'Артикул', width: 200},
+                    {field: "nomenclature.tech_size", headerName: 'Размер', width: 200},
+                    {field: "nomenclature.brand", headerName: 'Бренд', width: 200},
+                    {field: "quantity", headerName: 'Шт', width: 200},
+                    {field: "sr_price", headerName: 'Ср. цена', width: 200},
                 ],
                 defaultColDef: {
                     resizable: true,
