@@ -25,6 +25,7 @@ import Box from '../components/boxes/Box.vue'
 import BoxEditor from '../components/boxes/Editor.vue'
 
 import Products from '../components/products/Index.vue'
+import Size from '../components/products/Size.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -118,6 +119,11 @@ const router = createRouter({
             path: '/products',
             name: 'Products',
             component: Products
+        },
+        {
+            path: '/size/:uuid',
+            name: 'Size',
+            component: Size
         },
     ]
 })

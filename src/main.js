@@ -23,6 +23,10 @@ import Loader from './components/Loader.vue'
 import ToastPlugin from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-default.css'
 
+// mitt
+import mitt from 'mitt'
+const emitter = mitt()
+
 const app = createApp(App)
     .use(router)
     .use(store)
@@ -36,5 +40,6 @@ const app = createApp(App)
 // app.config.globalProperties.$axios.defaults.withXSRFToken = true
 
 app.config.globalProperties.$filters = globalFilters
+app.config.globalProperties.emitter = emitter
 
 app.mount('#app')

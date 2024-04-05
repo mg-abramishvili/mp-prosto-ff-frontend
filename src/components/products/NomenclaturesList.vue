@@ -1,0 +1,103 @@
+<template>
+    <Loader v-if="views.loading"/>
+
+    <input
+        v-if="!views.loading"
+        v-model="searchInput"
+        type="text"
+        class="form-control my-4"
+        placeholder="Поиск по номенклатурам..."
+    />
+
+    <div v-if="!views.loading" style="height: 500px; overflow-y: auto">
+        <table class="table">
+            <tbody>
+            <tr v-for="nomenclature in filteredNomenclatures">
+                <td>
+                    <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            :value="nomenclature.id"
+                            @change="emitter.emit('selectNomenclature', nomenclature)"
+                            :checked="selectedNomenclatures.find(n => n.id === nomenclature.id)">
+                    </div>
+                </td>
+                <td>
+                    {{ nomenclature.title }}
+                </td>
+                <td>
+                    {{ nomenclature.vendor_code }}
+                </td>
+                <td>
+                    {{ $filters.currencyDecimal(nomenclature.cost_price) }}
+                </td>
+                <td class="text-end">
+                    <button @click="edit(nomenclature)" class="btn btn-sm btn-outline-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path
+                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd"
+                                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</template>
+<script>
+export default {
+    props: ['type', 'selectedNomenclatures', 'size'],
+    data() {
+        return {
+            nomenclatures: [],
+
+            searchInput: '',
+
+            views: {
+                loading: true,
+            }
+        }
+    },
+    computed: {
+        filteredNomenclatures() {
+            if (!this.searchInput.length) {
+                return this.nomenclatures
+            }
+
+            return this.nomenclatures
+                .filter(n => n.title.toLowerCase().includes(this.searchInput.toLowerCase())
+                    || n.vendor_code.toLowerCase().includes(this.searchInput.toLowerCase()))
+        },
+    },
+    created() {
+        this.loadNomenclatures()
+    },
+    mounted() {
+        this.emitter.on('reloadNomenclaturesList', () => {
+            this.loadNomenclatures()
+        })
+    },
+    methods: {
+        loadNomenclatures() {
+            axios
+                .get(`${import.meta.env.VITE_API_SERVER}/api/ff-nomenclatures-by-contragent/${this.size.company_uuid}?type=${this.type}`)
+                .then(response => {
+                    this.nomenclatures = response.data
+
+                    this.views.loading = false
+                })
+        },
+        edit(nomenclature) {
+            this.$parent.editor = true
+
+            setTimeout(() => {
+                this.emitter.emit('editNomenclature', nomenclature)
+            }, 100)
+        },
+    }
+}
+</script>

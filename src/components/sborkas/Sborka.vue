@@ -57,7 +57,7 @@
                     <p class="mt-4 mb-1">Номенклатура:</p>
                     <ul>
                         <li v-for="nom in item.size.nomenclatures.filter(n => n.type === 'tovar')">
-                            {{nom.title}} - {{nom.vendor_code}}
+                            {{nom.id}} {{nom.title}} - {{nom.vendor_code}}
                         </li>
                     </ul>
 
@@ -65,6 +65,13 @@
                     <ul>
                         <li v-for="nom in item.size.nomenclatures.filter(n => n.type === 'raskhodnik')">
                             {{nom.title}} - {{nom.vendor_code}}
+                        </li>
+                    </ul>
+
+                    <p class="mt-4 mb-1">Услуги:</p>
+                    <ul>
+                        <li v-for="nom in item.size.nomenclatures.filter(n => n.type === 'usluga')">
+                            {{nom.title}}
                         </li>
                     </ul>
                 </td>

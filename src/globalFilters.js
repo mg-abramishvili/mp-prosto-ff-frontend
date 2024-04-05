@@ -9,6 +9,10 @@ export default {
         if (!value) return '0'
         return parseFloat(value).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + ' ₽'
     },
+    currencyDecimal(value) {
+        if (!value) return '0'
+        return parseFloat(value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + ' ₽'
+    },
     date(value) {
         if (!value) return ''
         return dayjs(value).locale('ru').utcOffset(3).format('DD.MM.YYYY')

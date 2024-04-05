@@ -116,7 +116,7 @@ export default {
         loadFFNomenclatures() {
             this.views.loading = true
 
-            axios.get(`${import.meta.env.VITE_API_SERVER}/api/ff-nomenclatures-by-contragent/${this.contragent}`)
+            axios.get(`${import.meta.env.VITE_API_SERVER}/api/ff-nomenclatures-by-contragent/${this.contragent}?type=tovar,raskhodnik`)
                 .then(response => {
                     if (response.data) {
                         this.nomenclatures = response.data.filter(n => n.vendor_code)

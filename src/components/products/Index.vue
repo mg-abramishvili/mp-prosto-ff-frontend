@@ -78,7 +78,7 @@ export default {
                 })
         },
         onCellClicked(event) {
-            //
+            this.$router.push({name: 'Size', params: {uuid: event.data.uuid}})
         },
     },
     components: {
