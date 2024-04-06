@@ -50,10 +50,10 @@ export default {
             this.submitButton = false
 
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/sanctum/csrf-cookie`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/sanctum/csrf-cookie`)
                 .then(response => {
                     axios
-                        .post(`${import.meta.env.VITE_API_SERVER}/login`, {
+                        .post(`${import.meta.env.VITE_API_FF_SERVER}/login`, {
                             email: this.email,
                             password: this.password,
                         })

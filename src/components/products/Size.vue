@@ -155,7 +155,7 @@ export default {
     methods: {
         loadSize() {
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/size/${this.$route.params.uuid}`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/size/${this.$route.params.uuid}`)
                 .then(response => {
                     this.size = response.data.data
 
@@ -224,7 +224,7 @@ export default {
             this.views.overlay = true
 
             axios
-                .put(`${import.meta.env.VITE_API_SERVER}/api/size/${this.$route.params.uuid}/update`, {
+                .put(`${import.meta.env.VITE_API_FF_SERVER}/api/size/${this.$route.params.uuid}/update`, {
                     cost_price: this.pricePreview,
                     dostavka_do_ff: this.dostavka.ff,
                     dostavka_do_mp: this.dostavka.mp,

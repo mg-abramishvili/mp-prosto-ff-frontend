@@ -56,7 +56,7 @@ export default {
             }
 
             axios
-                .post(`${import.meta.env.VITE_API_SERVER}/api/ff-nomenclatures`, {
+                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-nomenclatures`, {
                     contragent: this.contragent,
                     type: this.type,
                     title: this.title,

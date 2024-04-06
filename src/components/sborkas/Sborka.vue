@@ -127,7 +127,7 @@ export default {
     methods: {
         loadSborka() {
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/ff-sborka/${this.$route.params.uuid}`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborka/${this.$route.params.uuid}`)
                 .then(response => {
                     this.sborka = response.data
 
@@ -139,7 +139,7 @@ export default {
         },
         updateItem(item) {
             axios
-                .put(`${import.meta.env.VITE_API_SERVER}/api/ff-sborka-item/${item.id}/update`, {
+                .put(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborka-item/${item.id}/update`, {
                     quantity: item.quantity
                 })
                 .then(response => {
@@ -155,7 +155,7 @@ export default {
 
             if (confirm('Точно удалить запись?')) {
                 axios
-                    .delete(`${import.meta.env.VITE_API_SERVER}/api/ff-sborka-item/${item.id}/delete`)
+                    .delete(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborka-item/${item.id}/delete`)
                     .then(response => {
                         this.loadSborka()
                     })
@@ -165,7 +165,7 @@ export default {
             this.saveButton = false
 
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/ff-sborka/${this.$route.params.uuid}/provod`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborka/${this.$route.params.uuid}/provod`)
                 .then(response => {
                     this.loadSborka()
 
@@ -181,7 +181,7 @@ export default {
             this.saveButton = false
 
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/ff-sborka/${this.$route.params.uuid}/unprovod`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborka/${this.$route.params.uuid}/unprovod`)
                 .then(response => {
                     this.loadSborka()
 
@@ -193,7 +193,7 @@ export default {
         del() {
             if(confirm('Точно удалить документ?')) {
                 axios
-                    .delete(`${import.meta.env.VITE_API_SERVER}/api/ff-sborka/${this.$route.params.uuid}/delete`)
+                    .delete(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborka/${this.$route.params.uuid}/delete`)
                     .then(response => {
                         this.$router.push({name: 'Sborkas'})
                     })

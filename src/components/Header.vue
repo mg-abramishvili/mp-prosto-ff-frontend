@@ -92,7 +92,7 @@ export default {
             }
         },
         loadCompanies() {
-            axios.get(`${import.meta.env.VITE_API_SERVER}/api/companies`)
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/companies`)
                 .then(response => {
                     this.companies = response.data
 
@@ -100,7 +100,7 @@ export default {
                 })
         },
         selectCompany(companyUUID) {
-            axios.post(`${import.meta.env.VITE_API_SERVER}/api/select-company`, {
+            axios.post(`${import.meta.env.VITE_API_FF_SERVER}/api/select-company`, {
                 uuid: companyUUID,
             })
                 .then(response => {

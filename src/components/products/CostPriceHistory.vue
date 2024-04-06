@@ -120,7 +120,7 @@ export default {
             this.selectedCostPrice.cost_price = costPrice.cost_price
         },
         saveCostPrice() {
-            axios.put(`${import.meta.env.VITE_API_SERVER}/api/cost-price/${this.selectedCostPrice.cost_price_id}/update`, {
+            axios.put(`${import.meta.env.VITE_API_FF_SERVER}/api/cost-price/${this.selectedCostPrice.cost_price_id}/update`, {
                 date: this.selectedCostPrice.date,
                 cost_price: this.selectedCostPrice.cost_price,
             })
@@ -138,7 +138,7 @@ export default {
                 return this.$toast.error("Нельзя указать сегодняшнюю дату в истории себестоимости")
             }
 
-            axios.post(`${import.meta.env.VITE_API_SERVER}/api/cost-prices`, {
+            axios.post(`${import.meta.env.VITE_API_FF_SERVER}/api/cost-prices`, {
                 size_id: this.sizeId,
                 date: this.newCostPrice.date,
                 cost_price: this.newCostPrice.cost_price,
@@ -154,7 +154,7 @@ export default {
                 })
         },
         delCostPrice(costPrice) {
-            axios.delete(`${import.meta.env.VITE_API_SERVER}/api/cost-price/${costPrice.id}/delete`)
+            axios.delete(`${import.meta.env.VITE_API_FF_SERVER}/api/cost-price/${costPrice.id}/delete`)
                 .then(response => {
                     this.$parent.loadSize()
                 })

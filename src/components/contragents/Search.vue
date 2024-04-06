@@ -49,7 +49,7 @@ export default {
             }
 
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/ff-contragent-search/${this.inn}`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-contragent-search/${this.inn}`)
                 .then(response => {
                     this.contragents = response.data
 
@@ -63,7 +63,7 @@ export default {
         },
         add(uuid) {
             axios
-                .post(`${import.meta.env.VITE_API_SERVER}/api/ff-contragent-add`, {
+                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-contragent-add`, {
                     uuid: uuid,
                 })
                 .then(response => {

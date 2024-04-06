@@ -51,7 +51,7 @@ export default {
     methods: {
         loadBox() {
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/ff-box/${this.$route.params.uuid}`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-box/${this.$route.params.uuid}`)
                 .then(response => {
                     this.box = response.data
 

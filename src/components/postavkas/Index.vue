@@ -69,7 +69,7 @@ export default {
     },
     methods: {
         loadPostavkas() {
-            axios.get(`${import.meta.env.VITE_API_SERVER}/api/ff-postavkas`)
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavkas`)
                 .then(response => {
                     if (response.data) {
                         this.postavkas = response.data

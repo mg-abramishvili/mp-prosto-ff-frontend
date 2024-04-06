@@ -51,7 +51,7 @@ export default {
     },
     methods: {
         loadContragents() {
-            axios.get(`${import.meta.env.VITE_API_SERVER}/api/ff-contragents`)
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-contragents`)
                 .then(response => {
                     this.contragents = response.data
 
@@ -73,7 +73,7 @@ export default {
             this.$store.commit('setContragents', selectedContragents)
 
             axios
-                .post(`${import.meta.env.VITE_API_SERVER}/api/ff-select-contragents`, {
+                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-select-contragents`, {
                     contragents: selectedContragents,
                 })
                 .then(response => {

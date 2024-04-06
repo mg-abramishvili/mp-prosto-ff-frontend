@@ -241,7 +241,7 @@ export default {
     methods: {
         loadPostavka() {
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/ff-postavka/${this.$route.params.uuid}`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavka/${this.$route.params.uuid}`)
                 .then(response => {
                     this.postavka = response.data
 
@@ -259,7 +259,7 @@ export default {
         },
         updateItem(item) {
             axios
-                .put(`${import.meta.env.VITE_API_SERVER}/api/ff-postavka-item/${item.id}/update`, {
+                .put(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavka-item/${item.id}/update`, {
                     quantity: item.quantity,
                     raznitsa: item.raznitsa,
                     priem_price: item.priem_price,
@@ -282,7 +282,7 @@ export default {
 
             if (confirm('Точно удалить запись?')) {
                 axios
-                    .delete(`${import.meta.env.VITE_API_SERVER}/api/ff-postavka-item/${item.id}/delete`)
+                    .delete(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavka-item/${item.id}/delete`)
                     .then(response => {
                         this.loadPostavka()
                     })
@@ -292,7 +292,7 @@ export default {
             this.saveButton = false
 
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/ff-postavka/${this.$route.params.uuid}/provod`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavka/${this.$route.params.uuid}/provod`)
                 .then(response => {
                     this.loadPostavka()
 
@@ -305,7 +305,7 @@ export default {
             this.saveButton = false
 
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/ff-postavka/${this.$route.params.uuid}/unprovod`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavka/${this.$route.params.uuid}/unprovod`)
                 .then(response => {
                     this.loadPostavka()
 
@@ -317,7 +317,7 @@ export default {
         del() {
             if (confirm('Точно удалить документ?')) {
                 axios
-                    .delete(`${import.meta.env.VITE_API_SERVER}/api/ff-postavka/${this.$route.params.uuid}/delete`)
+                    .delete(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavka/${this.$route.params.uuid}/delete`)
                     .then(response => {
                         this.$router.push({name: 'Postavkas'})
                     })

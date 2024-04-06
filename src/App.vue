@@ -97,7 +97,7 @@ export default {
             }
 
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/whoami`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/whoami`)
                 .then(response => {
                     if (response.data && response.data.id) {
                         this.$store.commit('setUser', response.data)
@@ -121,7 +121,7 @@ export default {
             }
 
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/company`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/company`)
                 .then(response => {
                     if (response.data && response.data.uuid) {
                         this.$store.commit('setCompany', response.data)
@@ -140,7 +140,7 @@ export default {
         },
         loadSelectedContragents() {
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/ff-selected-contragents`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-selected-contragents`)
                 .then(response => {
                     if(response.data) {
                         this.$store.commit('setContragents', response.data)
@@ -152,7 +152,7 @@ export default {
         },
         loadSelectedStocks() {
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/ff-selected-stocks`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-selected-stocks`)
                 .then(response => {
                     if(response.data) {
                         this.$store.commit('setStocks', response.data)

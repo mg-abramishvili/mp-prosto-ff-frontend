@@ -80,7 +80,7 @@ export default {
             this.views.saveButton = false
 
             axios
-                .post(`${import.meta.env.VITE_API_SERVER}/api/ff-register`, {
+                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-register`, {
                     name: this.user.name,
                     email: this.user.email,
                     password: this.user.password,
@@ -108,7 +108,7 @@ export default {
             this.views.saveButton = false
 
             axios
-                .get(`${import.meta.env.VITE_API_SERVER}/api/test-api-key`, {
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/test-api-key`, {
                     params: {
                         key: this.company.wb_api_key_stat,
                     }

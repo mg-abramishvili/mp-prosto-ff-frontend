@@ -58,7 +58,7 @@ export default {
     },
     methods: {
         loadFFNomenclatures() {
-            axios.get(`${import.meta.env.VITE_API_SERVER}/api/ff-nomenclatures`)
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-nomenclatures`)
                 .then(response => {
                     if (response.data) {
                         this.nomenclatures = response.data

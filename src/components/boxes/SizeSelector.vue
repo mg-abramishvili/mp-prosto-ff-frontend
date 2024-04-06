@@ -82,7 +82,7 @@ export default {
         loadSizes() {
             this.views.loading = true
 
-            axios.get(`${import.meta.env.VITE_API_SERVER}/api/ff-products`)
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-products`)
                 .then(response => {
                     if (response.data) {
                         this.sizes = response.data

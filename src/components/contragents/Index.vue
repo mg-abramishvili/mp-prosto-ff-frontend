@@ -68,7 +68,7 @@ export default {
     },
     methods: {
         loadFFContragents() {
-            axios.get(`${import.meta.env.VITE_API_SERVER}/api/ff-contragents`)
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-contragents`)
                 .then(response => {
                     if (response.data) {
                         this.contragents = response.data
