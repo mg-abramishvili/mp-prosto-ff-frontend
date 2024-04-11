@@ -69,7 +69,7 @@ export default {
     },
     methods: {
         loadSborkas() {
-            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborkas`)
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/sborkas`)
                 .then(response => {
                     if (response.data) {
                         this.sborkas = response.data

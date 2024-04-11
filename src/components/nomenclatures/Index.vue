@@ -32,7 +32,12 @@ export default {
 
             table: {
                 columns: [
-                    {field: "nomenclature.type", headerName: 'Тип', width: 200},
+                    {
+                        field: "nomenclature.type",
+                        headerName: 'Тип',
+                        width: 200,
+                        cellRenderer: (params) => this.nomenclatureType(params.data.nomenclature),
+                    },
                     {field: "nomenclature.title", headerName: 'Наименование', width: 200},
                     {field: "nomenclature.vendor_code", headerName: 'Артикул', width: 200},
                     {field: "nomenclature.tech_size", headerName: 'Размер', width: 200},
@@ -41,6 +46,9 @@ export default {
                     {field: "sr_price", headerName: 'Ср. цена', width: 200},
                 ],
                 defaultColDef: {
+                    filter: true,
+                    floatingFilter: true,
+                    sortable: true,
                     resizable: true,
                 }
             },
@@ -58,7 +66,7 @@ export default {
     },
     methods: {
         loadFFNomenclatures() {
-            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-nomenclatures`)
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/nomenclatures`)
                 .then(response => {
                     if (response.data) {
                         this.nomenclatures = response.data
@@ -68,6 +76,19 @@ export default {
         },
         onCellClicked(event) {
             //
+        },
+        nomenclatureType(nom) {
+            if(nom.type === 'tovar') {
+                return 'товар'
+            }
+
+            if(nom.type === 'raskhodnik') {
+                return 'расходник'
+            }
+
+            if(nom.type === 'usluga') {
+                return 'услуга'
+            }
         },
     },
     components: {

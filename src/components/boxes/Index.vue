@@ -45,7 +45,7 @@ export default {
                         field: "status",
                         headerName: 'В коробке',
                         width: 180,
-                        cellRenderer: (params) => `${params.data.sborka_items_count}`
+                        cellRenderer: (params) => `${params.data.items_count}`
                     },
                 ],
                 defaultColDef: {
@@ -66,7 +66,7 @@ export default {
     },
     methods: {
         loadBoxes() {
-            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-boxes`)
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/boxes`)
                 .then(response => {
                     if (response.data) {
                         this.boxes = response.data

@@ -80,7 +80,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="item in postavka.items">
-                    <td>{{ item.nomenclature.type }}</td>
+                    <td>{{nomenclatureType(item.nomenclature)}}</td>
                     <td>{{ item.nomenclature.title }}</td>
                     <td>{{ item.nomenclature.vendor_code }}</td>
                     <td>{{ item.nomenclature.tech_size }}</td>
@@ -135,7 +135,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="item in postavka.items">
-                    <td>{{ item.nomenclature.type }}</td>
+                    <td>{{nomenclatureType(item.nomenclature)}}</td>
                     <td>{{ item.nomenclature.title }}</td>
                     <td>{{ item.nomenclature.vendor_code }}</td>
                     <td>{{ item.nomenclature.tech_size }}</td>
@@ -184,7 +184,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="item in postavka.items">
-                    <td>{{ item.nomenclature.type }}</td>
+                    <td>{{nomenclatureType(item.nomenclature)}}</td>
                     <td>{{ item.nomenclature.title }}</td>
                     <td>{{ item.nomenclature.vendor_code }}</td>
                     <td>{{ item.nomenclature.tech_size }}</td>
@@ -241,7 +241,7 @@ export default {
     methods: {
         loadPostavka() {
             axios
-                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavka/${this.$route.params.uuid}`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/postavka/${this.$route.params.uuid}`)
                 .then(response => {
                     this.postavka = response.data
 
@@ -259,7 +259,7 @@ export default {
         },
         updateItem(item) {
             axios
-                .put(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavka-item/${item.id}/update`, {
+                .put(`${import.meta.env.VITE_API_FF_SERVER}/api/postavka-item/${item.id}/update`, {
                     quantity: item.quantity,
                     raznitsa: item.raznitsa,
                     priem_price: item.priem_price,
@@ -282,7 +282,7 @@ export default {
 
             if (confirm('Точно удалить запись?')) {
                 axios
-                    .delete(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavka-item/${item.id}/delete`)
+                    .delete(`${import.meta.env.VITE_API_FF_SERVER}/api/postavka-item/${item.id}/delete`)
                     .then(response => {
                         this.loadPostavka()
                     })
@@ -292,7 +292,7 @@ export default {
             this.saveButton = false
 
             axios
-                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavka/${this.$route.params.uuid}/provod`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/postavka/${this.$route.params.uuid}/provod`)
                 .then(response => {
                     this.loadPostavka()
 
@@ -305,7 +305,7 @@ export default {
             this.saveButton = false
 
             axios
-                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavka/${this.$route.params.uuid}/unprovod`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/postavka/${this.$route.params.uuid}/unprovod`)
                 .then(response => {
                     this.loadPostavka()
 
@@ -313,14 +313,32 @@ export default {
 
                     this.$toast.success('Проведение документа отменено')
                 })
+                .catch(error => {
+                    this.$toast.error(error.response.data)
+
+                    this.saveButton = true
+                })
         },
         del() {
             if (confirm('Точно удалить документ?')) {
                 axios
-                    .delete(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavka/${this.$route.params.uuid}/delete`)
+                    .delete(`${import.meta.env.VITE_API_FF_SERVER}/api/postavka/${this.$route.params.uuid}/delete`)
                     .then(response => {
                         this.$router.push({name: 'Postavkas'})
                     })
+            }
+        },
+        nomenclatureType(nom) {
+            if(nom.type === 'tovar') {
+                return 'товар'
+            }
+
+            if(nom.type === 'raskhodnik') {
+                return 'расходник'
+            }
+
+            if(nom.type === 'usluga') {
+                return 'услуга'
             }
         },
     },

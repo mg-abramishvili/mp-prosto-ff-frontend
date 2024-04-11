@@ -9,10 +9,15 @@
         <div class="offcanvas-body my-0 mx-0 px-4 py-1 flex-grow-0">
             <div class="d-flex mb-3">
                 <button
-                    @click="views.tab = 'sizes'; loadSizes()"
-                    class="btn btn-sm ms-2"
-                    :class="views.tab === 'sizes' ? 'btn-primary' : 'btn-outline-primary'">
-                    Товары-размеры
+                    @click="inStockOnly = 0; loadSizes()"
+                    class="btn btn-sm btn-outline-primary  ms-2">
+                    Все
+                </button>
+
+                <button
+                    @click="inStockOnly = 1; loadSizes()"
+                    class="btn btn-sm btn-outline-primary ms-2">
+                    Которые можем собрать
                 </button>
             </div>
 
@@ -35,8 +40,8 @@
                         </div>
                         <div class="flex-grow-1">
                             <h6 class="mb-1">{{ size.product.title }}</h6>
-                            <p class="mb-0">{{ size.product.vendor_code }} | {{ size.tech_size }}</p>
-                            <small v-if="size.quantity" class="text-muted">{{ size.quantity.quantity }} шт</small>
+                            <p class="mb-0">{{ size.product.nm_id }} | {{ size.product.vendor_code }} | {{ size.tech_size }}</p>
+                            <!--                            <small class="text-muted">14.02.2024</small>-->
                         </div>
                     </div>
                 </li>
@@ -52,12 +57,15 @@
 
 <script>
 export default {
+    props: ['contragent'],
     emits: ['addSizeToBox'],
     data() {
         return {
             sizes: [],
 
             searchInput: '',
+
+            inStockOnly: 0,
 
             views: {
                 loading: true,
@@ -72,6 +80,7 @@ export default {
 
             return this.sizes
                 .filter(n => n.product.title.toLowerCase().includes(this.searchInput.toLowerCase())
+                    || n.product.nm_id.toString().includes(this.searchInput)
                     || n.product.vendor_code.toLowerCase().includes(this.searchInput.toLowerCase()))
         }
     },
@@ -82,7 +91,12 @@ export default {
         loadSizes() {
             this.views.loading = true
 
-            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-products`)
+            axios
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/products-by-contragent/${this.contragent}`, {
+                    params: {
+                        in_stock_only_sizes: this.inStockOnly
+                    }
+                })
                 .then(response => {
                     if (response.data) {
                         this.sizes = response.data

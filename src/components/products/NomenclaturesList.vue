@@ -84,7 +84,7 @@ export default {
     methods: {
         loadNomenclatures() {
             axios
-                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-nomenclatures-by-contragent/${this.size.company_uuid}?type=${this.type}`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/nomenclatures-by-contragent/${this.size.company_uuid}?type=${this.type}`)
                 .then(response => {
                     this.nomenclatures = response.data
 

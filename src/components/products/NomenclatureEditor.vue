@@ -153,7 +153,7 @@ export default {
 
             axios({
                 method: this.nomenclature ? 'put' : 'post',
-                url: this.nomenclature ? `${import.meta.env.VITE_API_FF_SERVER}/api/nomenclature/${this.nomenclature.uuid}/update` : `${import.meta.env.VITE_API_FF_SERVER}/api/ff-nomenclatures`,
+                url: this.nomenclature ? `${import.meta.env.VITE_API_FF_SERVER}/api/nomenclature/${this.nomenclature.uuid}/update` : `${import.meta.env.VITE_API_FF_SERVER}/api/nomenclatures`,
                 data: {
                     contragent: this.size.company_uuid,
                     size_id: this.size.id,

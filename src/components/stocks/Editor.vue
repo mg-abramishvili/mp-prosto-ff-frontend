@@ -26,7 +26,7 @@ export default {
     methods: {
         save() {
             axios
-                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-stocks`, {
+                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/stocks`, {
                     name: this.name,
                 })
                 .then(response => {

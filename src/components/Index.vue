@@ -52,7 +52,7 @@ export default {
     },
     methods: {
         loadFFStocks() {
-            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-stocks`)
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/stocks`)
                 .then(response => {
                     if (response.data) {
                         this.ffStocks = response.data

@@ -147,7 +147,7 @@ export default {
     methods: {
         getDocNumber() {
             axios
-                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavkas-get-number`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/postavkas-get-number`)
                 .then(response => {
                     this.number = response.data
 
@@ -155,7 +155,7 @@ export default {
                 })
         },
         loadFFContragents() {
-            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-contragents`)
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/contragents`)
                 .then(response => {
                     if (response.data) {
                         this.contragents = response.data
@@ -165,7 +165,7 @@ export default {
                 })
         },
         loadStocks() {
-            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-stocks`)
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/stocks`)
                 .then(response => {
                     if (response.data) {
                         this.stocks = response.data
@@ -242,7 +242,7 @@ export default {
             this.views.saveButton = false
 
             axios
-                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-postavkas`, {
+                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/postavkas`, {
                     contragent: this.selected.contragent,
                     stock: this.selected.stock,
                     date: this.date,

@@ -6,7 +6,7 @@ import Home from '../components/Index.vue'
 import Nomenclatures from '../components/nomenclatures/Index.vue'
 
 import Contragents from '../components/contragents/Index.vue'
-import ContragentEditor from '../components/contragents/Editor.vue'
+import ContragentMaster from '../components/contragents/Master.vue'
 import ContragentSearch from '../components/contragents/Search.vue'
 
 import Stocks from '../components/stocks/Index.vue'
@@ -51,9 +51,9 @@ const router = createRouter({
             component: Contragents
         },
         {
-            path: '/contragent-editor/:uuid?',
-            name: 'ContragentEditor',
-            component: ContragentEditor
+            path: '/contragent-master/:uuid?',
+            name: 'ContragentMaster',
+            component: ContragentMaster
         },
         {
             path: '/contragent-search',

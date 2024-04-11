@@ -1,7 +1,9 @@
 <template>
-    <h4 class="py-3 mb-4">Новый контрагент</h4>
+    <h4 class="py-3 mb-4">{{ $route.params.uuid ? company.name : 'Новый контрагент' }}</h4>
 
-    <div class="card mb-4">
+    <Loader v-if="views.loading"/>
+
+    <div v-if="!views.loading && !$route.params.uuid" class="card mb-4">
         <div class="card-body">
             <div class="mb-4">
                 <label class="form-label">E-mail контрагента</label>
@@ -25,7 +27,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div v-if="!views.loading" class="card">
         <div class="card-body">
             <div class="mb-4">
                 <label class="form-label">Название компании</label>
@@ -39,11 +41,24 @@
 
             <div class="mb-4">
                 <label class="form-label">API-ключ</label>
-                <input v-model="company.wb_api_key_stat" type="text" class="form-control">
+                <input
+                    v-model="company.wb_api_key_stat"
+                    :disabled="$route.params.uuid"
+                    type="text"
+                    class="form-control">
             </div>
 
             <button
+                v-if="!$route.params.uuid"
                 @click="testApiKey()"
+                class="btn btn-primary"
+                :disabled="!views.saveButton">
+                Зарегистрировать
+            </button>
+
+            <button
+                v-if="$route.params.uuid"
+                @click="save()"
                 class="btn btn-primary"
                 :disabled="!views.saveButton">
                 Сохранить
@@ -71,16 +86,54 @@ export default {
             },
 
             views: {
+                loading: true,
                 saveButton: true,
             },
         }
     },
+    created() {
+        if (this.$route.params.uuid) {
+            this.loadContragent()
+        }
+
+        if (!this.$route.params.uuid) {
+            this.views.loading = false
+        }
+    },
     methods: {
+        loadContragent() {
+            axios
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/contragent/${this.$route.params.uuid}`)
+                .then(response => {
+                    this.company.name = response.data.name
+                    this.company.inn = response.data.inn
+                    this.company.wb_api_key_stat = response.data.wb_api_key_stat
+
+                    this.views.loading = false
+                })
+        },
         save() {
             this.views.saveButton = false
 
             axios
-                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-register`, {
+                .put(`${import.meta.env.VITE_API_FF_SERVER}/api/contragent/${this.$route.params.uuid}/update`, {
+                    name: this.company.name,
+                    inn: this.company.inn,
+                })
+                .then(response => {
+                    this.$router.push({name: 'Contragents'})
+                })
+                .catch(error => {
+                    this.$toast.error(error)
+
+                    this.views.saveButton = true
+                })
+        },
+        register() {
+            this.views.saveButton = false
+
+            axios
+                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/register`, {
                     name: this.user.name,
                     email: this.user.email,
                     password: this.user.password,
@@ -102,7 +155,7 @@ export default {
         },
         testApiKey() {
             if (!this.company.wb_api_key_stat.length) {
-                return this.save()
+                return this.register()
             }
 
             this.views.saveButton = false
@@ -114,7 +167,7 @@ export default {
                     }
                 })
                 .then(response => {
-                    this.save()
+                    this.register()
                 })
                 .catch(error => {
                     this.$toast.error(error.response.data)

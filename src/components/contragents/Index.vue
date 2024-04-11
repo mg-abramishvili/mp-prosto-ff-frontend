@@ -8,7 +8,7 @@
                 Поиск в системе
             </RouterLink>
 
-            <RouterLink :to="{name: 'ContragentEditor'}" class="btn btn-primary ms-2">
+            <RouterLink :to="{name: 'ContragentMaster'}" class="btn btn-primary ms-2">
                 Создать нового
             </RouterLink>
         </div>
@@ -20,11 +20,7 @@
             :defaultColDef="table.defaultColDef"
             :columnDefs="table.columns"
             :rowData="contragents"
-            @cell-clicked="onCellClicked"
-            @cell-editing-started="cellEditingStarted"
-            @cell-editing-stopped="cellEditingStopped"
-            enableCellTextSelection="true"
-            ensureDomOrder="true">
+            @cell-clicked="onCellClicked">
         </ag-grid-vue>
     </div>
 
@@ -49,8 +45,12 @@ export default {
                     {field: "inn", headerName: 'ИНН', width: 200},
                     {field: "user.tel", headerName: 'Телефон', width: 200},
                     {field: "user.telegram", headerName: 'Телеграм', width: 200},
+                    {field: "pivot.balance", headerName: 'Баланс', width: 200},
                 ],
                 defaultColDef: {
+                    filter: true,
+                    floatingFilter: true,
+                    sortable: true,
                     resizable: true,
                 }
             },
@@ -64,11 +64,11 @@ export default {
         }
     },
     created() {
-        this.loadFFContragents()
+        this.loadContragents()
     },
     methods: {
-        loadFFContragents() {
-            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-contragents`)
+        loadContragents() {
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/contragents`)
                 .then(response => {
                     if (response.data) {
                         this.contragents = response.data
@@ -77,7 +77,7 @@ export default {
                 })
         },
         onCellClicked(event) {
-            // this.$router.push({name: 'FFNomenclatures'})
+            this.$router.push({name: 'ContragentMaster', params: {uuid: event.data.uuid}})
         },
     },
     components: {

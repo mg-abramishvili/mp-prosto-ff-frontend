@@ -50,7 +50,7 @@ export default {
     },
     methods: {
         loadStocks() {
-            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-stocks`)
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/stocks`)
                 .then(response => {
                     this.stocks = response.data
 
@@ -72,7 +72,7 @@ export default {
             this.$store.commit('setStocks', selectedStocks)
 
             axios
-                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-select-stocks`, {
+                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/select-stocks`, {
                     stocks: selectedStocks,
                 })
                 .then(response => {

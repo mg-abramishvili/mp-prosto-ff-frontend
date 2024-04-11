@@ -144,15 +144,15 @@ export default {
     methods: {
         getDocNumber() {
             axios
-                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborkas-get-number`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/sborkas-get-number`)
                 .then(response => {
                     this.number = response.data
 
-                    this.loadFFContragents()
+                    this.loadContragents()
                 })
         },
-        loadFFContragents() {
-            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-contragents`)
+        loadContragents() {
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/contragents`)
                 .then(response => {
                     if (response.data) {
                         this.contragents = response.data
@@ -162,7 +162,7 @@ export default {
                 })
         },
         loadStocks() {
-            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-stocks`)
+            axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/stocks`)
                 .then(response => {
                     if (response.data) {
                         this.stocks = response.data
@@ -222,7 +222,7 @@ export default {
             this.views.saveButton = false
 
             axios
-                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborkas`, {
+                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/sborkas`, {
                     contragent: this.selected.contragent,
                     stock: this.selected.stock,
                     date: this.date,

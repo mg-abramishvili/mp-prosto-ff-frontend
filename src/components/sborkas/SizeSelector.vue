@@ -92,7 +92,7 @@ export default {
             this.views.loading = true
 
             axios
-                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-products-by-contragent/${this.contragent}`, {
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/products-by-contragent/${this.contragent}`, {
                     params: {
                         in_stock_only: this.inStockOnly
                     }

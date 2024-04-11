@@ -57,21 +57,21 @@
                     <p class="mt-4 mb-1">Номенклатура:</p>
                     <ul>
                         <li v-for="nom in item.size.nomenclatures.filter(n => n.type === 'tovar')">
-                            {{nom.id}} {{nom.title}} - {{nom.vendor_code}}
+                            {{ nom.id }} {{ nom.title }} - {{ nom.vendor_code }}
                         </li>
                     </ul>
 
                     <p class="mt-4 mb-1">Расходники:</p>
                     <ul>
                         <li v-for="nom in item.size.nomenclatures.filter(n => n.type === 'raskhodnik')">
-                            {{nom.title}} - {{nom.vendor_code}}
+                            {{ nom.title }} - {{ nom.vendor_code }}
                         </li>
                     </ul>
 
                     <p class="mt-4 mb-1">Услуги:</p>
                     <ul>
                         <li v-for="nom in item.size.nomenclatures.filter(n => n.type === 'usluga')">
-                            {{nom.title}}
+                            {{ nom.title }}
                         </li>
                     </ul>
                 </td>
@@ -84,6 +84,12 @@
                         class="form-control form-control-sm">
                 </td>
                 <td class="text-end">
+                    <button
+                        @click="printSticker(item)"
+                        class="btn btn-sm btn-outline-dark me-2">
+                        <i class="tf-icons ti ti-printer"></i>
+                    </button>
+
                     <template v-if="sborka.status === 0">
                         <button
                             v-if="!editor"
@@ -127,7 +133,7 @@ export default {
     methods: {
         loadSborka() {
             axios
-                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborka/${this.$route.params.uuid}`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/sborka/${this.$route.params.uuid}`)
                 .then(response => {
                     this.sborka = response.data
 
@@ -139,7 +145,7 @@ export default {
         },
         updateItem(item) {
             axios
-                .put(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborka-item/${item.id}/update`, {
+                .put(`${import.meta.env.VITE_API_FF_SERVER}/api/sborka-item/${item.id}/update`, {
                     quantity: item.quantity
                 })
                 .then(response => {
@@ -149,13 +155,13 @@ export default {
                 })
         },
         delItem(item) {
-            if(this.sborka.items.length === 1) {
+            if (this.sborka.items.length === 1) {
                 return this.$toast.error('Документ сборки не может быть пустой')
             }
 
             if (confirm('Точно удалить запись?')) {
                 axios
-                    .delete(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborka-item/${item.id}/delete`)
+                    .delete(`${import.meta.env.VITE_API_FF_SERVER}/api/sborka-item/${item.id}/delete`)
                     .then(response => {
                         this.loadSborka()
                     })
@@ -165,7 +171,7 @@ export default {
             this.saveButton = false
 
             axios
-                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborka/${this.$route.params.uuid}/provod`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/sborka/${this.$route.params.uuid}/provod`)
                 .then(response => {
                     this.loadSborka()
 
@@ -175,13 +181,15 @@ export default {
                 })
                 .catch(error => {
                     this.$toast.error(error.response.data)
+
+                    this.saveButton = true
                 })
         },
         unprovod() {
             this.saveButton = false
 
             axios
-                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborka/${this.$route.params.uuid}/unprovod`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/sborka/${this.$route.params.uuid}/unprovod`)
                 .then(response => {
                     this.loadSborka()
 
@@ -189,15 +197,39 @@ export default {
 
                     this.$toast.success('Проведение документа отменено')
                 })
+                .catch(error => {
+                    this.$toast.error(error.response.data)
+
+                    this.saveButton = true
+                })
         },
         del() {
-            if(confirm('Точно удалить документ?')) {
+            if (confirm('Точно удалить документ?')) {
                 axios
-                    .delete(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-sborka/${this.$route.params.uuid}/delete`)
+                    .delete(`${import.meta.env.VITE_API_FF_SERVER}/api/sborka/${this.$route.params.uuid}/delete`)
                     .then(response => {
                         this.$router.push({name: 'Sborkas'})
                     })
             }
+        },
+        printSticker(item) {
+            axios
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/sticker`, {
+                    params: {
+                        barcode: item.barcode,
+                        size: item.size.tech_size,
+                        artnumber: item.size.product.vendor_code,
+                    },
+                    responseType: 'blob'
+                })
+                .then(response => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'sticker.pdf');
+                    document.body.appendChild(link);
+                    link.click();
+                })
         },
     },
 }

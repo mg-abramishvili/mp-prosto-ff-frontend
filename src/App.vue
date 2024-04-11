@@ -140,7 +140,7 @@ export default {
         },
         loadSelectedContragents() {
             axios
-                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-selected-contragents`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/selected-contragents`)
                 .then(response => {
                     if(response.data) {
                         this.$store.commit('setContragents', response.data)
@@ -152,7 +152,7 @@ export default {
         },
         loadSelectedStocks() {
             axios
-                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/ff-selected-stocks`)
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/selected-stocks`)
                 .then(response => {
                     if(response.data) {
                         this.$store.commit('setStocks', response.data)
