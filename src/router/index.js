@@ -28,6 +28,10 @@ import Palets from '../components/palets/Index.vue'
 import Palet from '../components/palets/Palet.vue'
 import PaletEditor from '../components/palets/Editor.vue'
 
+import Shipments from '../components/shipments/Index.vue'
+import Shipment from '../components/shipments/Shipment.vue'
+import ShipmentEditor from '../components/shipments/Editor.vue'
+
 import Products from '../components/products/Index.vue'
 import Size from '../components/products/Size.vue'
 
@@ -133,6 +137,21 @@ const router = createRouter({
             path: '/palet-editor/:uuid?',
             name: 'PaletEditor',
             component: PaletEditor
+        },
+        {
+            path: '/shipments',
+            name: 'Shipments',
+            component: Shipments
+        },
+        {
+            path: '/shipment/:uuid',
+            name: 'Shipment',
+            component: Shipment
+        },
+        {
+            path: '/shipment-editor/:uuid?',
+            name: 'ShipmentEditor',
+            component: ShipmentEditor
         },
         {
             path: '/products',

@@ -50,6 +50,13 @@
         </li>
 
         <li class="menu-item">
+            <RouterLink :to="{name: 'Shipments'}" href="" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-truck-delivery"></i>
+                <div>Отгрузки</div>
+            </RouterLink>
+        </li>
+
+        <li class="menu-item">
             <RouterLink :to="{name: 'Products'}" href="" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-letter-w"></i>
                 <div>Товары WB</div>
