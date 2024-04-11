@@ -9,42 +9,49 @@
 
         <li class="menu-item">
             <RouterLink :to="{name: 'Contragents'}" href="" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-database"></i>
+                <i class="menu-icon tf-icons ti ti-users"></i>
                 <div>Контрагенты</div>
             </RouterLink>
         </li>
 
         <li class="menu-item">
             <RouterLink :to="{name: 'Stocks'}" href="" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-database"></i>
+                <i class="menu-icon tf-icons ti ti-building-warehouse"></i>
                 <div>Склады</div>
             </RouterLink>
         </li>
 
         <li class="menu-item">
             <RouterLink :to="{name: 'Postavkas'}" href="" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-database"></i>
+                <i class="menu-icon tf-icons ti ti-transfer-in"></i>
                 <div>Поступления</div>
             </RouterLink>
         </li>
 
         <li class="menu-item">
             <RouterLink :to="{name: 'Sborkas'}" href="" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-database"></i>
+                <i class="menu-icon tf-icons ti ti-category-2"></i>
                 <div>Сборки</div>
             </RouterLink>
         </li>
 
         <li class="menu-item">
             <RouterLink :to="{name: 'Boxes'}" href="" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-database"></i>
+                <i class="menu-icon tf-icons ti ti-package"></i>
                 <div>Коробки</div>
             </RouterLink>
         </li>
 
         <li class="menu-item">
+            <RouterLink :to="{name: 'Palets'}" href="" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-forklift"></i>
+                <div>Палеты</div>
+            </RouterLink>
+        </li>
+
+        <li class="menu-item">
             <RouterLink :to="{name: 'Products'}" href="" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-database"></i>
+                <i class="menu-icon tf-icons ti ti-letter-w"></i>
                 <div>Товары WB</div>
             </RouterLink>
         </li>

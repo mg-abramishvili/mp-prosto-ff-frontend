@@ -1,5 +1,5 @@
 <template>
-    <h4 class="py-3 mb-4">Новая коробка</h4>
+    <h4 class="py-3 mb-4">Новая палета</h4>
 
     <Loader v-if="views.loading"/>
 
@@ -12,7 +12,7 @@
                             <label class="form-label">Склад</label>
                             <select
                                 v-model="selected.stock"
-                                @change="nomenclatures = []"
+                                @change="boxes = []"
                                 class="form-select">
                                 <option v-for="stock in stocks" :value="stock.uuid">
                                     {{ stock.name }}
@@ -25,7 +25,7 @@
                             <label class="form-label">Контрагент</label>
                             <select
                                 v-model="selected.contragent"
-                                @change="sizes = []"
+                                @change="boxes = []"
                                 class="form-select">
                                 <option v-for="contragent in contragents" :value="contragent.uuid">
                                     {{ contragent.name }}
@@ -33,11 +33,17 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-12 col-lg-3">
+                        <div class="mb-4">
+                            <label class="form-label">№ документа</label>
+                            <input v-model="number" type="number" class="form-control">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <button @click="openSizeSelector()" class="btn btn-primary mb-4">Добавить позицию</button>
+        <button @click="openBoxSelector()" class="btn btn-primary mb-4">Добавить коробку</button>
 
         <div class="card mt-4">
             <table class="table table-borderless table-hover mb-0">
@@ -51,43 +57,32 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="size in sizes">
-                    <SizeRow
-                        v-if="size.id"
-                        :size="size"
-                    />
+                <tr v-for="box in boxes">
+                    <tr>{{box.id}}</tr>
                 </tr>
-                <SizeCreator
-                    v-if="sizesCreator"
-                    :size="sizesCreator"
-                    @add-size="addSizeToBox"
-                    @close-creator="sizesCreator = null"
-                />
                 </tbody>
             </table>
         </div>
 
         <div class="d-flex justify-content-end mt-2 text-muted lh-1">
             <ul class="d-flex list-unstyled">
-                <li>Всего позиций: {{ sizes.length }}</li>
+                <li>Всего позиций: {{ boxes.length }}</li>
                 <li class="ms-4">Всего кол-во: {{ totalQuantity }}</li>
             </ul>
         </div>
 
-        <SizeSelector
-            v-if="views.sizesSelector && selected.contragent"
+        <BoxSelector
+            v-if="views.boxSelector && selected.contragent"
             :contragent="selected.contragent"
-            @add-size-to-box="addSizeToBox"
+            @add-box-to-palet="addBoxToPalet"
         />
 
-        <button @click="save()" class="btn btn-primary">Сохранить коробку</button>
+        <button @click="save()" class="btn btn-primary">Сохранить палету</button>
     </template>
 </template>
 
 <script>
-import SizeSelector from './SizeSelector.vue'
-import SizeRow from './Editor/Row.vue'
-import SizeCreator from './Editor/Creator.vue'
+import BoxSelector from './BoxSelector.vue'
 import dayjs from "dayjs";
 
 export default {
@@ -96,7 +91,9 @@ export default {
             contragents: [],
             stocks: [],
 
-            sizes: [],
+            boxes: [],
+
+            number: 0,
 
             selected: {
                 contragent: null,
@@ -105,27 +102,31 @@ export default {
 
             date: dayjs().locale('ru').utcOffset(3).format('YYYY-MM-DD'),
 
-            sizesCreator: null,
-
             views: {
                 loading: true,
                 saveButton: true,
-                sizesSelector: false,
+                boxSelector: false,
             },
         }
     },
     computed: {
         totalQuantity() {
-            return this.sizes
-                .reduce(function (acc, obj) {
-                    return acc + obj.quantity
-                }, 0)
+            return this.boxes.reduce(function (acc, obj) { return acc + obj.quantity }, 0)
         },
     },
     created() {
-        this.loadContragents()
+        this.getDocNumber()
     },
     methods: {
+        getDocNumber() {
+            axios
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/palets-get-number`)
+                .then(response => {
+                    this.number = response.data
+
+                    this.loadContragents()
+                })
+        },
         loadContragents() {
             axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/contragents`)
                 .then(response => {
@@ -148,25 +149,22 @@ export default {
                     this.views.loading = false
                 })
         },
-        openSizeSelector() {
+        openBoxSelector() {
             if (!this.selected.contragent) {
                 return this.$toast.error('Укажите контрагента')
             }
 
-            this.views.sizesSelector = true
+            this.views.boxSelector = true
         },
-        addSizeToBox(size) {
-            console.log(size)
-            let isSizeIsAlreadyAdded = this.sizes.find(n => n.id === size.id)
+        addBoxToPalet(box) {
+            let isBoxIsAlreadyAdded = this.boxes.find(b => b.id === box.id)
 
-            if (isSizeIsAlreadyAdded) {
-                return this.$toast.error('Размер уже добавлен')
+            if (isBoxIsAlreadyAdded) {
+                return this.$toast.error('Коробка уже добавлена')
             }
 
-            this.sizes.push({
-                id: size.id,
-                title: size.product.title,
-                quantity: 1,
+            this.boxes.push({
+                id: box.id,
             })
         },
         save() {
@@ -174,20 +172,25 @@ export default {
                 return this.$toast.error('Укажите склад')
             }
 
-            if(!this.sizes.length) {
-                return this.$toast.error('Коробка не может быть пустой')
+            if(!this.number || this.number === 0) {
+                return this.$toast.error('Укажите номер документа')
+            }
+
+            if(!this.boxes.length) {
+                return this.$toast.error('Палета не может быть пустой')
             }
 
             this.views.saveButton = false
 
             axios
-                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/boxes`, {
+                .post(`${import.meta.env.VITE_API_FF_SERVER}/api/palets`, {
                     contragent: this.selected.contragent,
                     stock: this.selected.stock,
-                    items: this.sizes
+                    number: this.number,
+                    boxes: this.boxes
                 })
                 .then(response => {
-                    this.$router.push({name: 'Box', params: {uuid: response.data}})
+                    this.$router.push({name: 'Palet', params: {uuid: response.data}})
                 })
                 .catch(error => {
                     this.$toast.error(error.response.data)
@@ -197,9 +200,7 @@ export default {
         },
     },
     components: {
-        SizeSelector,
-        SizeRow,
-        SizeCreator,
+        BoxSelector,
     },
 }
 </script>

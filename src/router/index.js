@@ -24,6 +24,10 @@ import Boxes from '../components/boxes/Index.vue'
 import Box from '../components/boxes/Box.vue'
 import BoxEditor from '../components/boxes/Editor.vue'
 
+import Palets from '../components/palets/Index.vue'
+import Palet from '../components/palets/Palet.vue'
+import PaletEditor from '../components/palets/Editor.vue'
+
 import Products from '../components/products/Index.vue'
 import Size from '../components/products/Size.vue'
 
@@ -114,6 +118,21 @@ const router = createRouter({
             path: '/box-editor/:uuid?',
             name: 'BoxEditor',
             component: BoxEditor
+        },
+        {
+            path: '/palets',
+            name: 'Palets',
+            component: Palets
+        },
+        {
+            path: '/palet/:uuid',
+            name: 'Palet',
+            component: Palet
+        },
+        {
+            path: '/palet-editor/:uuid?',
+            name: 'PaletEditor',
+            component: PaletEditor
         },
         {
             path: '/products',

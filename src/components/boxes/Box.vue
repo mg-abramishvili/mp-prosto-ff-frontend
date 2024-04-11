@@ -1,7 +1,10 @@
 <template>
     <div class="row align-items-center mb-4">
         <div class="col-12 col-lg-6">
-            <h4 class="m-0">Коробка №{{ box.number }}</h4>
+            <h4 class="m-0">Коробка {{ box.number }}</h4>
+            <button @click="printSticker()" class="btn btn-sm btn-outline-dark">
+                Распечатать этикетку
+            </button>
         </div>
         <div class="col-12 col-lg-6 text-end">
             <button
@@ -183,6 +186,25 @@ export default {
                         this.$router.push({name: 'Boxes'})
                     })
             }
+        },
+        printSticker() {
+            axios
+                .get(`${import.meta.env.VITE_API_FF_SERVER}/api/sticker`, {
+                    params: {
+                        barcode: this.box.number,
+                        contragent: 'Товар принадлежит: ' + this.box.contragent.name + ' ' + this.box.contragent.inn,
+                        stock: 'Отправитель: ' + this.box.company.name + ' ' + this.box.company.inn,
+                    },
+                    responseType: 'blob'
+                })
+                .then(response => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'sticker.pdf');
+                    document.body.appendChild(link);
+                    link.click();
+                })
         },
     },
 }
