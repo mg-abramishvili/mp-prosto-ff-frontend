@@ -1,5 +1,12 @@
 <template>
-    <h4 class="py-3 mb-4">Товары WB</h4>
+    <div class="row align-items-center mb-4">
+        <div class="col-12 col-lg-6">
+            <h4 class="py-3">Товары WB</h4>
+        </div>
+        <div class="col-12 col-lg-6 text-end">
+            <RouterLink :to="{name: 'ProductEditor'}" class="btn btn-primary">Добавить</RouterLink>
+        </div>
+    </div>
 
     <div v-if="!views.loading && products.length" class="card ag-card">
         <ag-grid-vue
@@ -8,8 +15,6 @@
             :columnDefs="table.columns"
             :rowData="products"
             @cell-clicked="onCellClicked"
-            @cell-editing-started="cellEditingStarted"
-            @cell-editing-stopped="cellEditingStopped"
             enableCellTextSelection="true"
             ensureDomOrder="true">
         </ag-grid-vue>

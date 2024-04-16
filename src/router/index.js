@@ -37,6 +37,7 @@ import ShipmentEditor from '../components/shipments/Editor.vue'
 
 import Products from '../components/products/Index.vue'
 import Size from '../components/products/Size.vue'
+import ProductEditor from '../components/products/Editor.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -170,6 +171,11 @@ const router = createRouter({
             path: '/products',
             name: 'Products',
             component: Products
+        },
+        {
+            path: '/product-editor/:uuid?',
+            name: 'ProductEditor',
+            component: ProductEditor
         },
         {
             path: '/size/:uuid',
