@@ -53,6 +53,12 @@
                                     </li>
                                 </ul>
                             </li>
+
+                            <li class="dropdown-menu-footer border-top">
+                                <button @click="logout()" class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40 mb-1 align-items-center">
+                                    Выйти
+                                </button>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -105,6 +111,16 @@ export default {
             })
                 .then(response => {
                     window.location.href = '/'
+                })
+        },
+        logout() {
+            axios
+                .post(`${import.meta.env.VITE_API_FF_SERVER}/logout`)
+                .then(response => {
+                    window.location.href = '/'
+                })
+                .catch(error => {
+                    this.$toast.error(error)
                 })
         },
     },

@@ -47,7 +47,7 @@
         </aside>
 
         <div class="layout-page">
-            <Header/>
+            <Header v-if="$store.state.company.name" />
 
             <div class="content-wrapper">
                 <div class="flex-grow-1 container-p-y container-fluid">
@@ -102,11 +102,18 @@ export default {
                     if (response.data && response.data.id) {
                         this.$store.commit('setUser', response.data)
 
-                        this.checkCompany()
-                    } else {
-                        this.$router.push({name: 'Login'})
-                        this.views.loading = false
+                        return this.checkCompany()
                     }
+
+                    if (window.location.pathname === '/login') {
+                        return this.views.loading = false
+                    }
+
+                    if (window.location.pathname === '/register') {
+                        return this.views.loading = false
+                    }
+
+                    window.location.href = '/login'
                 })
                 .catch(error => {
                     if (error.response.status === 401) {

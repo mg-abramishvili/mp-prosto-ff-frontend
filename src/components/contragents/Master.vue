@@ -43,7 +43,6 @@
                 <label class="form-label">API-ключ</label>
                 <input
                     v-model="company.wb_api_key_stat"
-                    :disabled="$route.params.uuid"
                     type="text"
                     class="form-control">
             </div>

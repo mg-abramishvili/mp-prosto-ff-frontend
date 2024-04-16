@@ -21,6 +21,8 @@
                                 </button>
                             </div>
                         </form>
+
+                        <a href="/register">Регистрация</a>
                     </div>
                 </div>
             </div>
