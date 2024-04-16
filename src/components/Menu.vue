@@ -63,6 +63,13 @@
             </RouterLink>
         </li>
 
+        <li v-if="$store.state.company.name" class="menu-item">
+            <RouterLink :to="{name: 'NomUslugas'}" href="" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-list-check"></i>
+                <div>Услуги</div>
+            </RouterLink>
+        </li>
+
         <li v-if="!$store.state.company.name" class="menu-item">
             <RouterLink :to="{name: 'Wizard'}" href="" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-exclamation-mark"></i>

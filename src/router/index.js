@@ -39,6 +39,9 @@ import Products from '../components/products/Index.vue'
 import Size from '../components/products/Size.vue'
 import ProductEditor from '../components/products/Editor.vue'
 
+import NomUslugas from '../components/nom-uslugas/Index.vue'
+import NomUslugaCategory from '../components/nom-uslugas/Category.vue'
+
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -181,6 +184,16 @@ const router = createRouter({
             path: '/size/:uuid',
             name: 'Size',
             component: Size
+        },
+        {
+            path: '/nom-uslugas',
+            name: 'NomUslugas',
+            component: NomUslugas
+        },
+        {
+            path: '/nom-usluga-category/:id',
+            name: 'NomUslugaCategory',
+            component: NomUslugaCategory
         },
     ]
 })
