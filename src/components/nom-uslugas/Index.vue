@@ -10,23 +10,43 @@
         </div>
     </div>
 
-    <div v-if="!views.loading && categories.length" class="card tree-list">
+    <div v-if="!views.loading" class="card tree-list">
         <div class="card-body">
-            <tree
-                v-for="category in categories"
-                :category="category"
-            />
+            <ul>
+                <TreeItem class="item" :category="treeData"></TreeItem>
+            </ul>
         </div>
     </div>
 </template>
 
 <script>
-import tree from "./Category.vue"
+import TreeItem from "./Category.vue"
 
 export default {
     data() {
         return {
-            categories: [],
+            treeData: {
+                name: 'Услуги',
+                children: [
+                    { name: 'hello' },
+                    { name: 'wat' },
+                    {
+                        name: 'child folder',
+                        children: [
+                            {
+                                name: 'child folder',
+                                children: [{ name: 'hello' }, { name: 'wat' }]
+                            },
+                            { name: 'hello' },
+                            { name: 'wat' },
+                            {
+                                name: 'child folder',
+                                children: [{ name: 'hello' }, { name: 'wat' }]
+                            }
+                        ]
+                    }
+                ]
+            },
 
             views: {
                 loading: true,
@@ -41,14 +61,23 @@ export default {
             axios.get(`${import.meta.env.VITE_API_FF_SERVER}/api/nom-usluga-categories`)
                 .then(response => {
                     if (response.data) {
-                        this.categories = response.data
+                        this.treeData.children = response.data
                     }
                     this.views.loading = false
                 })
         },
     },
     components: {
-        tree,
+        TreeItem,
     },
 }
 </script>
+<style>
+.item {
+    cursor: pointer;
+    line-height: 1.5;
+}
+.bold {
+    font-weight: bold;
+}
+</style>
