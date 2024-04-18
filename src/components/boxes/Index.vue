@@ -40,17 +40,32 @@ export default {
             table: {
                 columns: [
                     {field: "number", headerName: '№', width: 200},
-                    {field: "status", headerName: 'Статус', width: 200},
+                    {
+                        field: "status",
+                        headerName: 'Статус',
+                        width: 200,
+                        cellRenderer: (params) => params.data.status === 1 ? 'проведено' : 'не проведено'
+                    },
+                    {field: "text_status", headerName: 'Статус 2', width: 200},
                     {
                         field: "status",
                         headerName: 'В коробке',
                         width: 180,
                         cellRenderer: (params) => `${params.data.items_count}`
                     },
+                    {
+                        field: "shipment",
+                        headerName: 'Отгрузка',
+                        width: 200,
+                        cellRenderer: (params) => params.data.shipment_id ? 'Документ отгрузки №' + params.data.shipment.number : '-'
+                    },
                 ],
                 defaultColDef: {
+                    filter: true,
+                    floatingFilter: true,
+                    sortable: true,
                     resizable: true,
-                },
+                }
             },
 
             views: {

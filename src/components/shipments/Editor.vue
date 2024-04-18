@@ -41,6 +41,12 @@
                     </div>
                     <div class="col-12 col-lg-3">
                         <div class="mb-4">
+                            <label class="form-label">Дата отгрузки</label>
+                            <input v-model="date" type="date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-3">
+                        <div class="mb-4">
                             <label class="form-label">Тип поставки</label>
                             <select
                                 v-model="selected.type"
@@ -298,6 +304,7 @@ export default {
                     contragent: this.selected.contragent,
                     stock: this.selected.stock,
                     number: this.number,
+                    date: this.date,
                     type: this.selected.type,
                     marketplace: this.selected.marketplace,
                     boxes: this.boxes,

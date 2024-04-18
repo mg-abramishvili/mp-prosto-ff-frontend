@@ -1,7 +1,7 @@
 <template>
     <div class="row align-items-center mb-4">
         <div class="col-12 col-lg-6">
-            <h4 class="py-3">Отгурзки</h4>
+            <h4 class="py-3">Отгрузки</h4>
         </div>
         <div class="col-12 col-lg-6 text-end">
             <RouterLink :to="{name: 'ShipmentEditor'}" class="btn btn-primary">
@@ -40,11 +40,36 @@ export default {
             table: {
                 columns: [
                     {field: "number", headerName: '№', width: 200},
-                    {field: "status", headerName: 'Статус', width: 200},
+                    {field: "date", headerName: 'Дата поставки', width: 200},
+                    {
+                        field: "status",
+                        headerName: 'Статус',
+                        width: 200,
+                        cellRenderer: (params) => params.data.status === 1 ? 'проведено' : 'не проведено'
+                    },
+                    {
+                        field: "marketplace",
+                        headerName: 'Маркетплейс',
+                        width: 200,
+                    },
+                    {
+                        field: "wb_office_text",
+                        headerName: 'Склад поставки',
+                        width: 200,
+                    },
+                    {
+                        field: "type",
+                        headerName: 'Тип',
+                        width: 200,
+                        cellRenderer: (params) => params.data.type === 'box' ? 'коробки' : 'палеты'
+                    },
                 ],
                 defaultColDef: {
+                    filter: true,
+                    floatingFilter: true,
+                    sortable: true,
                     resizable: true,
-                },
+                }
             },
 
             views: {
